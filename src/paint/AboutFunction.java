@@ -13,10 +13,18 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 /**
- *
+ * Creates and displays the "About" window for the 
+ * Paint Program
+ * 
  * @author tanya
  */
 public class AboutFunction {
+    /**
+    * Connects the about menu item to the About window
+    * 
+    * @param aboutItem the menu item used to open the About window
+    */
+    
     public static void setup(MenuItem aboutItem) {
 
         // open a seperate about window

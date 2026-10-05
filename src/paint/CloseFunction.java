@@ -14,7 +14,10 @@ import javafx.stage.Stage;
 import static paint.GuiImage.drawingArea;
 
 /**
- *
+ * Closes the function as well as 
+ * warns user if they try exiting
+ * without saving
+ * 
  * @author tanya
  */
 public class CloseFunction {

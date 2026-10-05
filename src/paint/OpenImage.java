@@ -15,24 +15,39 @@ import javafx.stage.Stage;
 import static paint.GuiImage.currentFile;
 import static paint.GuiImage.imageData;
 import static paint.GuiImage.drawingArea;
+
 /**
- *
+ * handles opening image files in the paint program
+ * 
+ * 
  * @author tanya
  */
 public class OpenImage {
-     public static void setup(MenuItem openItem, Stage stage) {
+    
+    /**
+     * Sets up the Open menu item so the user can select
+     * and open an image file.
+     *
+     * @param openItem the menu item used to open an image
+     * @param stage the main Paint application window
+     */
+    
+     public static void setup(
+            MenuItem openItem,
+            Stage stage) {
 
-        // OPEN 
-        
-        openItem.setOnAction(event -> { // when open gets selected run this code 
+        // OPEN
+        openItem.setOnAction(event -> {
 
-            //  open a file chooser 
-            FileChooser fileChooser = new FileChooser(); 
-            
-            
-            fileChooser.setTitle("Open Image");
-            
-            // only show supported image file types 
+            // open a file chooser
+            FileChooser fileChooser =
+                    new FileChooser();
+
+            fileChooser.setTitle(
+                    "Open Image"
+            );
+
+            // only show supported image file types
             fileChooser.getExtensionFilters().add(
                     new FileChooser.ExtensionFilter(
                             "Image Files",
@@ -43,27 +58,17 @@ public class OpenImage {
                     )
             );
 
-            // store the file selected by the user 
-            currentFile = fileChooser.showOpenDialog(stage);
+            // store the file selected by the user
+            currentFile =
+                    fileChooser.showOpenDialog(stage);
 
-            if (currentFile != null) { // if user selects something
+            if (currentFile != null) {
 
-                //load and display the selected image 
-                Image image = new Image(currentFile.toURI().toString());
-
-                drawingArea.setImage(image);// display it 
-
-                try {
-                       // reads all the data inside the image 
-                    imageData = Files.readAllBytes(currentFile.toPath());
-
-                } catch (IOException e) {
-                    // if error occurs, run this instead of program crashing
-                    System.out.println("Error opening image.");
-
-                }
+                // open the image in a new tab
+                ImageTabs.openImage(
+                        currentFile
+                );
             }
-
         });
     }
 }

@@ -21,17 +21,22 @@ import static paint.GuiImage.imageData;
 import static paint.GuiImage.drawingArea;
 
 /**
- *
+ * handles save as feature 
+ * 
  * @author tanya
  */
 public class SaveAsFunction {
      public static void setup(MenuItem saveAsItem, Stage stage) {
 
-        // SAVE AS
-        // Let the user save the edited image as a new file
+        /**
+        * Sets up the Save As menu item.
+        *
+        * @param saveAsItem the menu item used to save the image as a new file
+        * @param stage the main Paint application window
+        */
         saveAsItem.setOnAction(event -> {
 
-            if (imageData != null) {
+            if (drawingArea != null) {
                 
                 // show the different image formats that can be saved
                 FileChooser fileChooser = new FileChooser();
@@ -102,6 +107,10 @@ public class SaveAsFunction {
 
                         // make the new file the current file 
                         currentFile = newFile;
+                        
+                        ImageTabs.updateCurrentFile(
+                            newFile
+                        );
 
                         // mark all changes as saved 
                         drawingArea.markSaved();

@@ -7,10 +7,18 @@ package paint;
 import javafx.scene.control.Alert;
 import javafx.scene.control.MenuItem;
 /**
- *
+ * Displays instructions for using paint program
+ * 
  * @author tanya
  */
 public class HelpFunction {
+    
+     /**
+     * Sets up the Help menu item so it displays instructions
+     * for using the main features of the Paint program.
+     *
+     * @param helpItem the menu item used to open the Help window
+     */
       public static void setup(MenuItem helpItem) {
 
         // show instructions when the user selects Help

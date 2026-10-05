@@ -2,192 +2,251 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
+
 package paint;
 
-
-import javafx.event.EventHandler;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
-
-
-import javafx.scene.SnapshotParameters;
 import javafx.scene.image.WritableImage;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+
+import java.util.Stack;
 
 
 /**
- *
+ * Creates and manages the drawing area.
+ * 
+ * Holds the image, canvas, drawing settings, and modified status.
+ * 
  * @author tanya
  */
 public class DrawingArea {
-    private ImageView imageView; // displays the image that the user opens
-    private Canvas canvas; // Canvas placed over the image so the user can draw
-    private Pane drawingPane; // Holds the image and canvas together
-    private ScrollPane scrollPane; // Allows the user to scroll around large images
-    
-    private GraphicsContext gc; // used to draw lines on the canvas
+
+    ImageView imageView; // displays the image that the user opens
+
+    Canvas canvas; // canvas placed over the image so the user can draw
+
+    Pane drawingPane; // holds the image and canvas together
+
+    ScrollPane scrollPane; // allows the user to scroll around large images
    
-    // stores where the user first clicks to start a line
-    private double startX; 
-    private double startY;
+    Stack<WritableImage> undoStack =
+            new Stack<>(); // stores previous image states for Undo
+
+    Stack<WritableImage> redoStack =
+            new Stack<>(); // stores undone image states for Redo
+
+    GraphicsContext gc; // used to draw lines on the canvas
+   
+    // stores where the user first clicks to start a drawing
+    double startX; 
+    double startY;
     
-    private double lineWidth =3;// default line width
+    double lineWidth = 3; // default line width
     
-    private Color lineColor = Color.BLACK; // default drawing color
+    Color lineColor = Color.BLACK; // default drawing color
     
-    private boolean modified = false; // keeps track of whether the image has unsaved changes
-    
-    // save the starting point when the mouse is pressed 
-    private void setupDrawing(){
-        
-        canvas.setOnMousePressed(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                
-                // get the location where the user started the line
-                startX = event.getX();
-                startY = event.getY();
-            }
-        });
-        // draw a line when the user releases the mouse
-        canvas.setOnMouseReleased(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                
-                // get the ending point of a line
-                double endX = event.getX();
-                double endY = event.getY();
-               
-                
-                // apply the selected line width and color
-                gc.setLineWidth(lineWidth);
-                gc.setStroke(lineColor);
-                
-                
-                // draw the line from starting point to ending
-                gc.strokeLine(
-                    startX,
-                    startY,
-                    endX,
-                    endY
-                );
-                
-    // mark the drawing as changed so the program knows it needs to be saved
-                modified = true;
-            }
-        });
-    }
-    
-    // creates and sets up the drawing area
+    boolean modified = false; // keeps track of unsaved changes
+
+
+    // stores the location and size of the selected area
+    double selectionX;
+    double selectionY;
+    double selectionWidth;
+    double selectionHeight;
+
+    // keeps track of whether the user currently has an area selected
+    boolean hasSelection = false;
+
+    // stores the image copied from the selected area
+    WritableImage copiedImage;
+
+    // shows the selected area on the screen
+    Rectangle selectionBox;
+
+
+    /**
+     * Creates and sets up the drawing area.
+     */
     public DrawingArea() {
         
-        imageView = new ImageView(); // creates the image display
+        // creates the image display
+        imageView =
+                new ImageView();
         
-        canvas = new Canvas(); // creates the transparent drawing canvas
+        // creates the transparent drawing canvas
+        canvas =
+                new Canvas();
         
-        gc = canvas.getGraphicsContext2D(); // gets the tool used to draw on canvas
+        // gets the tool used to draw on the canvas
+        gc =
+                canvas.getGraphicsContext2D();
         
-        drawingPane = new Pane();// creates the area that holds both the image and canvas
+        // creates the area that holds the image and canvas
+        drawingPane =
+                new Pane();
+
+
+        // create the box that will show the current selection
+        selectionBox =
+                new Rectangle();
+
+        // selection box should only show an outline
+        selectionBox.setFill(
+                Color.TRANSPARENT
+        );
+
+        // make the selection outline black
+        selectionBox.setStroke(
+                Color.BLACK
+        );
+
+        // make the selection outline dashed
+        selectionBox.getStrokeDashArray()
+                .addAll(
+                        5.0,
+                        5.0
+                );
+
+        // selection box should not block mouse drawing
+        selectionBox.setMouseTransparent(
+                true
+        );
+
+        // hide the selection box until something is selected
+        selectionBox.setVisible(
+                false
+        );
         
-        // make any extra resized drawing space white 
-        drawingPane.setStyle("-fx-background-color: white;");
+
+        // make any extra resized drawing space white
+        drawingPane.setStyle(
+                "-fx-background-color: white;"
+        );
         
-        //Image goes first, canvas goes on top
-        drawingPane.getChildren().addAll(imageView, canvas);
+        // image goes first, drawing canvas goes second,
+        // and the selection outline goes on top
+        drawingPane.getChildren().addAll(
+                imageView,
+                canvas,
+                selectionBox
+        );
         
-        //places the drawing area inside a scrollable window
-        scrollPane = new ScrollPane(drawingPane);
+        // places the drawing area inside a scrollable window
+        scrollPane =
+                new ScrollPane(
+                        drawingPane
+                );
         
-        //allows large images to be moved around inside the scorll pane
-        scrollPane.setPannable(true);
-        
-        // tur s on the mouse drawing control
-        setupDrawing();
-    }
-    // displays a newly opened image and makes the canvas match its size
-    public void setImage(Image image){
-        
-        imageView.setImage(image); // displays the image
-        
-        //makes the drawing canvas the same size as the image
-        canvas.setWidth(image.getWidth());
-        canvas.setHeight(image.getHeight());
-        
-        // make the drawing area match the image size
-        drawingPane.setPrefSize(
-            image.getWidth(),
-            image.getHeight()
+        // allows large images to be moved around inside the scroll pane
+        scrollPane.setPannable(
+                true
         );
     }
     
-    // returns the scrollable drawing area so GuiImage can display it 
+
+    /**
+     * Displays an image in the drawing area.
+     *
+     * @param image the image that will be displayed
+     */
+    public void setImage(Image image) {
+        SetImage.setImage(
+                this,
+                image
+        );
+    }
+    
+    
+    /**
+     * Returns the scrollable drawing area so it can be displayed in GuiImage.
+     *
+     * @return the ScrollPane containing the drawing area
+     */
     public ScrollPane getView() {
         return scrollPane;
     }
     
-    // updates the width used for new lines
-    public void setLineWidth(double width){
-        lineWidth = width;
-    }
-    
-    // updates the color used for new lines
-    public void setLineColor(Color color) {
-        lineColor = color;
-    }
-    
-    //creates one image containing both the og pic and any drawings
-    public WritableImage getEditedImage() {
-        
-        // gets the current size of drawing
-        int width = (int) drawingPane.getWidth();
-        int height = (int) drawingPane.getHeight();
-        
-        // create any empty image that will hold the edited pic
-        WritableImage editedImage = 
-            new WritableImage(width,height);
-        
-        // take a snapshot of everything in the drawing area. 
-        drawingPane.snapshot(
-            new SnapshotParameters(),
-            editedImage
+
+    /**
+     * Updates the width used for new lines and shapes.
+     *
+     * @param width the new line width
+     */
+    public void setLineWidth(double width) {
+        SetLineWidth.setLineWidth(
+                this,
+                width
         );
-        
-        // return the image so it can be saved
-        return editedImage;
     }
     
+
+    /**
+     * Updates the color used for new lines and shapes.
+     *
+     * @param color the new drawing color
+     */
+    public void setLineColor(Color color) {
+        SetLineColor.setLineColor(
+                this,
+                color
+        );
+    }
     
-    // returns true if the user has made changes that are not saved
+
+    /**
+     * Creates one image containing the original image and current drawings.
+     *
+     * @return the edited image
+     */
+    public WritableImage getEditedImage() {
+        return GetEditedImage.getEditedImage(
+                this
+        );
+    }
+    
+
+    /**
+     * Checks whether the image has unsaved changes.
+     *
+     * @return true if the image has been modified
+     */
     public boolean isModified() {
-        return modified;
+        return IsModified.isModified(
+                this
+        );
     }
 
-    // changes the sizes of the canvas and drawing area
-    public void resizeDrawingArea(double width, double height) {
-        
-        // only resizes if the user entered valid positive numbers
-        if (width > 0 && height > 0){
-        
-            canvas.setWidth(width);
-            canvas.setHeight(height);
 
-            drawingPane.setPrefSize(width, height);
+    /**
+     * Changes the width and height of the drawing area.
+     *
+     * @param width the new width of the drawing area
+     * @param height the new height of the drawing area
+     */
+    public void resizeDrawingArea(
+            double width,
+            double height) {
 
-            // resizing count as am unsaved change 
-            modified = true; 
-        }
+        ResizedDrawingArea.resizeDrawingArea(
+                this,
+                width,
+                height
+        );
     }
     
-    // marks the current image as saved
+
+    /**
+     * Marks the current image as saved.
+     */
     public void markSaved() {
-        modified = false;
+        MarkSaved.markSaved(
+                this
+        );
     }
 }
-
-    
-    

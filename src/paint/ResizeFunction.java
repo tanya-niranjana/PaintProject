@@ -18,10 +18,19 @@ import javafx.scene.layout.VBox;
 
 import static paint.GuiImage.drawingArea;
 /**
- *
+ *handles resizing the drawing area in the paint program
+ * 
+ * allows user to enter a new width and height
+ * 
  * @author tanya
  */
 public class ResizeFunction {
+    
+     /**
+     * Sets up the Resize Drawing Area menu item.
+     *
+     * @param resizeItem the menu item used to open the resize dialog
+     */
      public static void setup(MenuItem resizeItem) {
 
         // Ask the user for a new width and height for drawing area

@@ -18,13 +18,19 @@ import javafx.scene.image.WritableImage;
 import static paint.GuiImage.currentFile;
 import static paint.GuiImage.drawingArea;
 /**
- *
+ * save function
+ * 
  * @author tanya
  */
 public class SaveFunction {
+    
+    /**
+     * Sets up the Save menu item.
+     *
+     * @param saveItem the menu item used to save the current image
+     */
      public static void setup(MenuItem saveItem) {
-
-        // SAVE 
+         
         // Save the edited image over the currently opened file 
         saveItem.setOnAction(new EventHandler<ActionEvent>() {
             @Override
