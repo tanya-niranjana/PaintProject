@@ -19,8 +19,6 @@ public class GetEditedImage {
      * Takes a snapshot of the entire drawing area and returns it
      * as one image that can be saved.
      *
-     * The selection box is temporarily hidden so it is not
-     * included as part of the saved image.
      * 
      * @param drawingArea the drawing area containing the image and drawings
      * @return the edited image containing everything in the drawing area
@@ -29,11 +27,9 @@ public class GetEditedImage {
             DrawingArea drawingArea) {
         
         // get the current size of the drawing area
-        int width =
-                (int) drawingArea.drawingPane.getWidth();
+        int width = (int) drawingArea.drawingPane.getWidth();
 
-        int height =
-                (int) drawingArea.drawingPane.getHeight();
+        int height = (int) drawingArea.drawingPane.getHeight();
         
         // create an empty image that will hold the edited picture
         WritableImage editedImage =
@@ -43,13 +39,10 @@ public class GetEditedImage {
                 );
 
         // remember whether the selection box was showing
-        boolean selectionWasVisible =
-                drawingArea.selectionBox.isVisible();
+        boolean selectionWasVisible =drawingArea.selectionBox.isVisible();
 
         // hide the selection box before taking the snapshot
-        drawingArea.selectionBox.setVisible(
-                false
-        );
+        drawingArea.selectionBox.setVisible(false);
         
         // take a snapshot of everything in the drawing area
         drawingArea.drawingPane.snapshot(
@@ -58,9 +51,7 @@ public class GetEditedImage {
         );
 
         // return the selection box to its previous visibility
-        drawingArea.selectionBox.setVisible(
-                selectionWasVisible
-        );
+        drawingArea.selectionBox.setVisible(selectionWasVisible);
         
         // return the image so it can be saved
         return editedImage;

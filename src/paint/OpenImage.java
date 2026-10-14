@@ -32,20 +32,15 @@ public class OpenImage {
      * @param stage the main Paint application window
      */
     
-     public static void setup(
-            MenuItem openItem,
-            Stage stage) {
+     public static void setup(MenuItem openItem,Stage stage) {
 
         // OPEN
         openItem.setOnAction(event -> {
 
             // open a file chooser
-            FileChooser fileChooser =
-                    new FileChooser();
+            FileChooser fileChooser = new FileChooser();
 
-            fileChooser.setTitle(
-                    "Open Image"
-            );
+            fileChooser.setTitle("Open Image");
 
             // only show supported image file types
             fileChooser.getExtensionFilters().add(
@@ -59,15 +54,12 @@ public class OpenImage {
             );
 
             // store the file selected by the user
-            currentFile =
-                    fileChooser.showOpenDialog(stage);
+            currentFile = fileChooser.showOpenDialog(stage);
 
             if (currentFile != null) {
 
                 // open the image in a new tab
-                ImageTabs.openImage(
-                        currentFile
-                );
+                ImageTabs.openImage(currentFile);
             }
         });
     }

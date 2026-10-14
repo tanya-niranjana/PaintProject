@@ -42,7 +42,7 @@ public class AboutFunction {
             Label infoLabel = new Label(
                 """
                 JavaFX Image Editor 
-                 Created by Tanya Sharma 
+                Created by Tanya Sharma 
                 CS 250""");
             
             // create a button to close the about window

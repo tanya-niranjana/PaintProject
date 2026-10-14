@@ -30,6 +30,8 @@ public class HelpFunction {
             helpAlert.setHeaderText("Paint Help");
             
             helpAlert.setContentText("""
+                                     
+                                     ** needs to be updated
                                      Open an image using File > Open. 
                                      Draw a line by clicking an dragging on the image. 
                                      Use the slider to change line width. 

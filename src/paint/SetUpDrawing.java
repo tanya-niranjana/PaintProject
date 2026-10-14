@@ -33,65 +33,41 @@ public class SetUpDrawing {
                 new Line();
 
         // make sure the preview does not block mouse controls
-        previewLine.setMouseTransparent(
-                true
-        );
+        previewLine.setMouseTransparent(true);
 
         // hide the preview until the user starts drawing
-        previewLine.setVisible(
-                false
-        );
+        previewLine.setVisible(false);
 
         // add the preview line above the canvas
-        drawingArea.drawingPane.getChildren().add(
-                previewLine
-        );
+        drawingArea.drawingPane.getChildren().add(previewLine);
 
         // start the line when the mouse is pressed
-        drawingArea.canvas.setOnMousePressed(
-                event -> {
+        drawingArea.canvas.setOnMousePressed(event -> {
 
             // save the current image before drawing the new line
-            UndoRedo.saveState(
-                    drawingArea
-            );
+            UndoRedo.saveState(drawingArea);
 
             // get the location where the user started the line
-            drawingArea.startX =
-                    event.getX();
+            drawingArea.startX = event.getX();
 
-            drawingArea.startY =
-                    event.getY();
+            drawingArea.startY = event.getY();
 
             // set the preview starting point
-            previewLine.setStartX(
-                    drawingArea.startX
-            );
+            previewLine.setStartX(drawingArea.startX);
 
-            previewLine.setStartY(
-                    drawingArea.startY
-            );
+            previewLine.setStartY(drawingArea.startY);
 
-            previewLine.setEndX(
-                    drawingArea.startX
-            );
+            previewLine.setEndX(drawingArea.startX);
 
-            previewLine.setEndY(
-                    drawingArea.startY
-            );
+            previewLine.setEndY(drawingArea.startY);
 
             // use the selected line width and color
-            previewLine.setStrokeWidth(
-                    drawingArea.lineWidth
-            );
+            previewLine.setStrokeWidth(drawingArea.lineWidth);
 
-            previewLine.setStroke(
-                    drawingArea.lineColor
-            );
+            previewLine.setStroke(drawingArea.lineColor);
 
             // copy the dashed line setting if it is turned on
-            double[] dashes =
-                    drawingArea.gc.getLineDashes();
+            double[] dashes = drawingArea.gc.getLineDashes();
 
             previewLine.getStrokeDashArray().clear();
 
@@ -112,42 +88,29 @@ public class SetUpDrawing {
         });
 
         // update the preview while the mouse is dragged
-        drawingArea.canvas.setOnMouseDragged(
-                event -> {
+        drawingArea.canvas.setOnMouseDragged(event -> {
 
-            previewLine.setEndX(
-                    event.getX()
+            previewLine.setEndX(event.getX()
             );
 
-            previewLine.setEndY(
-                    event.getY()
-            );
+            previewLine.setEndY(event.getY());
         });
 
         // finish the line when the mouse is released
-        drawingArea.canvas.setOnMouseReleased(
-                event -> {
+        drawingArea.canvas.setOnMouseReleased(event -> {
 
             // get the ending point of the line
-            double endX =
-                    event.getX();
+            double endX = event.getX();
 
-            double endY =
-                    event.getY();
+            double endY = event.getY();
 
             // hide the temporary preview
-            previewLine.setVisible(
-                    false
-            );
+            previewLine.setVisible(false);
 
             // apply the selected line width and color
-            drawingArea.gc.setLineWidth(
-                    drawingArea.lineWidth
-            );
+            drawingArea.gc.setLineWidth(drawingArea.lineWidth);
 
-            drawingArea.gc.setStroke(
-                    drawingArea.lineColor
-            );
+            drawingArea.gc.setStroke(drawingArea.lineColor);
 
             // draw the final line onto the canvas
             drawingArea.gc.strokeLine(
@@ -158,8 +121,7 @@ public class SetUpDrawing {
             );
 
             // mark the drawing as changed
-            drawingArea.modified =
-                    true;
+            drawingArea.modified =true;
         });
     }
 }

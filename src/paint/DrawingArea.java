@@ -76,35 +76,26 @@ public class DrawingArea {
     public DrawingArea() {
         
         // creates the image display
-        imageView =
-                new ImageView();
+        imageView = new ImageView();
         
         // creates the transparent drawing canvas
-        canvas =
-                new Canvas();
+        canvas = new Canvas();
         
         // gets the tool used to draw on the canvas
-        gc =
-                canvas.getGraphicsContext2D();
+        gc = canvas.getGraphicsContext2D();
         
         // creates the area that holds the image and canvas
-        drawingPane =
-                new Pane();
+        drawingPane = new Pane();
 
 
         // create the box that will show the current selection
-        selectionBox =
-                new Rectangle();
+        selectionBox = new Rectangle();
 
         // selection box should only show an outline
-        selectionBox.setFill(
-                Color.TRANSPARENT
-        );
+        selectionBox.setFill(Color.TRANSPARENT);
 
         // make the selection outline black
-        selectionBox.setStroke(
-                Color.BLACK
-        );
+        selectionBox.setStroke(Color.BLACK);
 
         // make the selection outline dashed
         selectionBox.getStrokeDashArray()
@@ -114,20 +105,14 @@ public class DrawingArea {
                 );
 
         // selection box should not block mouse drawing
-        selectionBox.setMouseTransparent(
-                true
-        );
+        selectionBox.setMouseTransparent(true);
 
         // hide the selection box until something is selected
-        selectionBox.setVisible(
-                false
-        );
+        selectionBox.setVisible(false);
         
 
         // make any extra resized drawing space white
-        drawingPane.setStyle(
-                "-fx-background-color: white;"
-        );
+        drawingPane.setStyle("-fx-background-color: white;");
         
         // image goes first, drawing canvas goes second,
         // and the selection outline goes on top
@@ -138,15 +123,10 @@ public class DrawingArea {
         );
         
         // places the drawing area inside a scrollable window
-        scrollPane =
-                new ScrollPane(
-                        drawingPane
-                );
-        
+        scrollPane = new ScrollPane(drawingPane);
+                        
         // allows large images to be moved around inside the scroll pane
-        scrollPane.setPannable(
-                true
-        );
+        scrollPane.setPannable(true);
     }
     
 
@@ -217,9 +197,7 @@ public class DrawingArea {
      * @return true if the image has been modified
      */
     public boolean isModified() {
-        return IsModified.isModified(
-                this
-        );
+        return IsModified.isModified(this);
     }
 
 
@@ -245,8 +223,6 @@ public class DrawingArea {
      * Marks the current image as saved.
      */
     public void markSaved() {
-        MarkSaved.markSaved(
-                this
-        );
+        MarkSaved.markSaved(this);
     }
 }

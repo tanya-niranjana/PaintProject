@@ -34,53 +34,35 @@ public class SqaureTool {
                 new Rectangle();
 
         // square should only have an outline
-        previewSquare.setFill(
-                Color.TRANSPARENT
-        );
+        previewSquare.setFill(Color.TRANSPARENT);
 
         // make sure preview does not block the mouse
-        previewSquare.setMouseTransparent(
-                true
-        );
+        previewSquare.setMouseTransparent(true);
 
         // hide preview until drawing begins
-        previewSquare.setVisible(
-                false
-        );
+        previewSquare.setVisible(false);
 
         // add preview above the canvas
-        drawingArea.drawingPane.getChildren().add(
-                previewSquare
-        );
+        drawingArea.drawingPane.getChildren().add(previewSquare);
 
         // save starting point when mouse is pressed
-        drawingArea.canvas.setOnMousePressed(
-                event -> {
+        drawingArea.canvas.setOnMousePressed(event -> {
 
             // save current image before drawing new square
-            UndoRedo.saveState(
-                    drawingArea
-            );
+            UndoRedo.saveState(drawingArea);
 
             // get starting location
-            drawingArea.startX =
-                    event.getX();
+            drawingArea.startX = event.getX();
 
-            drawingArea.startY =
-                    event.getY();
+            drawingArea.startY = event.getY();
 
             // apply selected width and color
-            previewSquare.setStrokeWidth(
-                    drawingArea.lineWidth
-            );
+            previewSquare.setStrokeWidth(drawingArea.lineWidth);
 
-            previewSquare.setStroke(
-                    drawingArea.lineColor
-            );
+            previewSquare.setStroke(drawingArea.lineColor);
 
             // copy dashed outline setting if turned on
-            double[] dashes =
-                    drawingArea.gc.getLineDashes();
+            double[] dashes = drawingArea.gc.getLineDashes();
 
             previewSquare.getStrokeDashArray().clear();
 
@@ -95,63 +77,38 @@ public class SqaureTool {
             }
 
             // start square with size zero
-            previewSquare.setX(
-                    drawingArea.startX
-            );
+            previewSquare.setX(drawingArea.startX);
 
-            previewSquare.setY(
-                    drawingArea.startY
-            );
+            previewSquare.setY(drawingArea.startY);
 
-            previewSquare.setWidth(
-                    0
-            );
+            previewSquare.setWidth(0);
 
-            previewSquare.setHeight(
-                    0
-            );
+            previewSquare.setHeight(0);
 
             // show the live preview
-            previewSquare.setVisible(
-                    true
-            );
+            previewSquare.setVisible(true);
         });
 
         // update the square while mouse is dragged
-        drawingArea.canvas.setOnMouseDragged(
-                event -> {
+        drawingArea.canvas.setOnMouseDragged(event -> {
 
             // ending location
-            double endX =
-                    event.getX();
+            double endX = event.getX();
 
-            double endY =
-                    event.getY();
+            double endY = event.getY();
 
             // calculate width and height
-            double width =
-                    Math.abs(
-                            endX - drawingArea.startX
-                    );
+            double width = Math.abs(endX - drawingArea.startX);
 
-            double height =
-                    Math.abs(
-                            endY - drawingArea.startY
-                    );
+            double height = Math.abs(endY - drawingArea.startY);
 
             // use smaller value so shape stays a square
-            double size =
-                    Math.min(
-                            width,
-                            height
-                    );
+            double size = Math.min(width,height);
 
             // start square at original mouse position
-            double x =
-                    drawingArea.startX;
+            double x = drawingArea.startX;
 
-            double y =
-                    drawingArea.startY;
+            double y = drawingArea.startY;
 
             // adjust x if dragged left
             if (endX < drawingArea.startX) {
@@ -170,21 +127,13 @@ public class SqaureTool {
             }
 
             // update live preview
-            previewSquare.setX(
-                    x
-            );
+            previewSquare.setX(x);
 
-            previewSquare.setY(
-                    y
-            );
+            previewSquare.setY(y);
 
-            previewSquare.setWidth(
-                    size
-            );
+            previewSquare.setWidth(size);
 
-            previewSquare.setHeight(
-                    size
-            );
+            previewSquare.setHeight(size);
         });
 
         // draw the final square when mouse is released
@@ -192,66 +141,45 @@ public class SqaureTool {
                 event -> {
 
             // ending location
-            double endX =
-                    event.getX();
+            double endX = event.getX();
 
-            double endY =
-                    event.getY();
+            double endY = event.getY();
 
             // calculate width and height
             double width =
-                    Math.abs(
-                            endX - drawingArea.startX
-                    );
+                    Math.abs(endX - drawingArea.startX);
 
             double height =
-                    Math.abs(
-                            endY - drawingArea.startY
-                    );
+                    Math.abs(endY - drawingArea.startY);
 
             // use smaller value so shape stays a square
             double size =
-                    Math.min(
-                            width,
-                            height
-                    );
+                    Math.min(width,height);
 
             // start square at original mouse position
-            double x =
-                    drawingArea.startX;
+            double x = drawingArea.startX;
 
-            double y =
-                    drawingArea.startY;
+            double y = drawingArea.startY;
 
             // adjust x if dragged left
             if (endX < drawingArea.startX) {
 
-                x =
-                        drawingArea.startX
-                        - size;
+                x =drawingArea.startX - size;
             }
 
             // adjust y if dragged up
             if (endY < drawingArea.startY) {
 
-                y =
-                        drawingArea.startY
-                        - size;
+                y = drawingArea.startY - size;
             }
 
             // hide temporary preview
-            previewSquare.setVisible(
-                    false
-            );
+            previewSquare.setVisible(false);
 
             // set line width and color
-            drawingArea.gc.setLineWidth(
-                    drawingArea.lineWidth
-            );
+            drawingArea.gc.setLineWidth(drawingArea.lineWidth);
 
-            drawingArea.gc.setStroke(
-                    drawingArea.lineColor
-            );
+            drawingArea.gc.setStroke(drawingArea.lineColor);
 
             // draw final square
             drawingArea.gc.strokeRect(
@@ -262,8 +190,7 @@ public class SqaureTool {
             );
 
             // mark drawing as changed
-            drawingArea.modified =
-                    true;
+            drawingArea.modified = true;
         });
     }
 }

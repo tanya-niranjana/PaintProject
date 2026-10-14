@@ -27,9 +27,7 @@ public class EraserTool {
 
         // save the current image before the user starts erasing
         drawingArea.canvas.setOnMousePressed(event -> {
-
-            UndoRedo.saveState(
-                    drawingArea
+            UndoRedo.saveState(drawingArea
             );
         });
 
@@ -37,8 +35,7 @@ public class EraserTool {
         drawingArea.canvas.setOnMouseDragged(event -> {
 
             // make the eraser size based on the current line width
-            double size =
-                    drawingArea.lineWidth * 3;
+            double size =drawingArea.lineWidth * 3;
 
             // clear part of the canvas around the mouse
             drawingArea.gc.clearRect(

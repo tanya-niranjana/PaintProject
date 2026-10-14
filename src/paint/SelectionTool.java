@@ -28,128 +28,81 @@ public class SelectionTool {
         drawingArea.canvas.setOnMouseDragged(null);
 
         // start the selection when the mouse is pressed
-        drawingArea.canvas.setOnMousePressed(
-                event -> {
+        drawingArea.canvas.setOnMousePressed(event -> {
 
             // save the starting location
-            drawingArea.startX =
-                    event.getX();
+            drawingArea.startX = event.getX();
 
-            drawingArea.startY =
-                    event.getY();
+            drawingArea.startY = event.getY();
 
             // no completed selection yet
-            drawingArea.hasSelection =
-                    false;
+            drawingArea.hasSelection = false;
 
             // start the selection box at the mouse location
-            drawingArea.selectionBox.setX(
-                    drawingArea.startX
-            );
+            drawingArea.selectionBox.setX(drawingArea.startX);
 
-            drawingArea.selectionBox.setY(
-                    drawingArea.startY
-            );
+            drawingArea.selectionBox.setY(drawingArea.startY);
 
-            drawingArea.selectionBox.setWidth(
-                    0
-            );
+            drawingArea.selectionBox.setWidth(0);
 
-            drawingArea.selectionBox.setHeight(
-                    0
-            );
+            drawingArea.selectionBox.setHeight(0);
 
             // show the selection box
-            drawingArea.selectionBox.setVisible(
-                    true
-            );
+            drawingArea.selectionBox.setVisible(true);
         });
 
         // update the selection box while the mouse is dragged
-        drawingArea.canvas.setOnMouseDragged(
-                event -> {
+        drawingArea.canvas.setOnMouseDragged(event -> {
 
             // get the current mouse location
-            double endX =
-                    event.getX();
+            double endX = event.getX();
 
-            double endY =
-                    event.getY();
+            double endY = event.getY();
 
             // find the top left corner of the selection
             double x =
-                    Math.min(
-                            drawingArea.startX,
-                            endX
-                    );
+                    Math.min(drawingArea.startX,endX);
 
             double y =
-                    Math.min(
-                            drawingArea.startY,
-                            endY
-                    );
+                    Math.min(drawingArea.startY,endY);
 
             // calculate the selection width and height
-            double width =
-                    Math.abs(
-                            endX - drawingArea.startX
-                    );
+            double width = Math.abs(endX - drawingArea.startX);
 
-            double height =
-                    Math.abs(
-                            endY - drawingArea.startY
-                    );
+            double height = Math.abs(endY - drawingArea.startY);
 
             // update the selection box while the user drags
-            drawingArea.selectionBox.setX(
-                    x
-            );
+            drawingArea.selectionBox.setX(x);
 
-            drawingArea.selectionBox.setY(
-                    y
-            );
+            drawingArea.selectionBox.setY(y);
 
-            drawingArea.selectionBox.setWidth(
-                    width
-            );
+            drawingArea.selectionBox.setWidth(width);
 
-            drawingArea.selectionBox.setHeight(
-                    height
-            );
+            drawingArea.selectionBox.setHeight(height);
         });
 
         // save the selected area when the mouse is released
-        drawingArea.canvas.setOnMouseReleased(
-                event -> {
+        drawingArea.canvas.setOnMouseReleased(event -> {
 
             // save the final selection location
-            drawingArea.selectionX =
-                    drawingArea.selectionBox.getX();
+            drawingArea.selectionX = drawingArea.selectionBox.getX();
 
-            drawingArea.selectionY =
-                    drawingArea.selectionBox.getY();
+            drawingArea.selectionY = drawingArea.selectionBox.getY();
 
-            drawingArea.selectionWidth =
-                    drawingArea.selectionBox.getWidth();
+            drawingArea.selectionWidth = drawingArea.selectionBox.getWidth();
 
-            drawingArea.selectionHeight =
-                    drawingArea.selectionBox.getHeight();
+            drawingArea.selectionHeight = drawingArea.selectionBox.getHeight();
 
             // only count it as a selection if it has a size
-            if (drawingArea.selectionWidth > 0
-                    && drawingArea.selectionHeight > 0) {
+            if (drawingArea.selectionWidth > 0 && drawingArea.selectionHeight > 0) {
 
-                drawingArea.hasSelection =
-                        true;
+                drawingArea.hasSelection = true;
 
             } else {
 
-                drawingArea.hasSelection =
-                        false;
+                drawingArea.hasSelection = false;
 
-                drawingArea.selectionBox.setVisible(
-                        false
-                );
+                drawingArea.selectionBox.setVisible(false);
             }
         });
     }

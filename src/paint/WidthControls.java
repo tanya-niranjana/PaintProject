@@ -40,11 +40,7 @@ public class WidthControls {
                 (observable, oldValue, newValue) -> {
 
             // only change the width if an image tab is open
-            if (GuiImage.drawingArea != null) {
-
-                GuiImage.drawingArea.setLineWidth(
-                        newValue.doubleValue()
-                );
+            if (GuiImage.drawingArea != null) {GuiImage.drawingArea.setLineWidth(newValue.doubleValue());
             }
 
             // display the new width in pixels

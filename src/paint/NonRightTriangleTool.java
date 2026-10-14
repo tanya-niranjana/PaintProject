@@ -31,58 +31,39 @@ public class NonRightTriangleTool {
         drawingArea.canvas.setOnMouseClicked(null);
 
         // create temporary triangle for the live preview
-        Polygon previewTriangle =
-                new Polygon();
+        Polygon previewTriangle = new Polygon();
 
         // triangle should only have an outline
-        previewTriangle.setFill(
-                Color.TRANSPARENT
-        );
+        previewTriangle.setFill(Color.TRANSPARENT);
 
         // make sure preview does not block the mouse
-        previewTriangle.setMouseTransparent(
-                true
-        );
+        previewTriangle.setMouseTransparent(true);
 
         // hide preview until drawing begins
-        previewTriangle.setVisible(
-                false
-        );
+        previewTriangle.setVisible(false);
 
         // add preview above the canvas
-        drawingArea.drawingPane.getChildren().add(
-                previewTriangle
-        );
+        drawingArea.drawingPane.getChildren().add(previewTriangle);
 
         // save the starting point when the mouse is pressed
-        drawingArea.canvas.setOnMousePressed(
-                event -> {
+        drawingArea.canvas.setOnMousePressed(event -> {
 
             // save current image before drawing the triangle
-            UndoRedo.saveState(
-                    drawingArea
-            );
+            UndoRedo.saveState(drawingArea);
 
             // save starting x and y
-            drawingArea.startX =
-                    event.getX();
+            drawingArea.startX = event.getX();
 
-            drawingArea.startY =
-                    event.getY();
+            drawingArea.startY = event.getY();
 
             // apply selected line width
-            previewTriangle.setStrokeWidth(
-                    drawingArea.lineWidth
-            );
+            previewTriangle.setStrokeWidth(drawingArea.lineWidth);
 
             // apply selected line color
-            previewTriangle.setStroke(
-                    drawingArea.lineColor
-            );
+            previewTriangle.setStroke(drawingArea.lineColor);
 
             // copy dashed outline setting if turned on
-            double[] dashes =
-                    drawingArea.gc.getLineDashes();
+            double[] dashes = drawingArea.gc.getLineDashes();
 
             previewTriangle.getStrokeDashArray().clear();
 
@@ -90,9 +71,7 @@ public class NonRightTriangleTool {
 
                 for (double dash : dashes) {
 
-                    previewTriangle.getStrokeDashArray().add(
-                            dash
-                    );
+                    previewTriangle.getStrokeDashArray().add(dash);
                 }
             }
 
@@ -115,60 +94,39 @@ public class NonRightTriangleTool {
         });
 
         // update the triangle while the mouse is dragged
-        drawingArea.canvas.setOnMouseDragged(
-                event -> {
+        drawingArea.canvas.setOnMouseDragged( event -> {
 
             // get current ending x and y
-            double endX =
-                    event.getX();
+            double endX = event.getX();
 
-            double endY =
-                    event.getY();
+            double endY = event.getY();
 
             // calculate width of dragged area
-            double width =
-                    Math.abs(
-                            endX - drawingArea.startX
-                    );
+            double width = Math.abs(endX - drawingArea.startX);
 
             // use width to calculate triangle height
-            double height =
-                    width * Math.sqrt(3) / 2;
+            double height = width * Math.sqrt(3) / 2;
 
             // find left and right sides
-            double leftX =
-                    Math.min(
-                            drawingArea.startX,
-                            endX
-                    );
+            double leftX = Math.min(drawingArea.startX,endX);
 
-            double rightX =
-                    Math.max(
-                            drawingArea.startX,
-                            endX
-                    );
+            double rightX =Math.max(drawingArea.startX,endX);
 
             // find middle x position
-            double middleX =
-                    (leftX + rightX) / 2;
+            double middleX =(leftX + rightX) / 2;
 
-            double topY =
-                    drawingArea.startY;
+            double topY =drawingArea.startY;
 
             double bottomY;
 
             // decide whether the triangle goes up or down
             if (endY >= drawingArea.startY) {
 
-                bottomY =
-                        drawingArea.startY
-                        + height;
+                bottomY =drawingArea.startY+ height;
 
             } else {
 
-                bottomY =
-                        drawingArea.startY
-                        - height;
+                bottomY =drawingArea.startY- height;
             }
 
             // update the live triangle
@@ -185,60 +143,38 @@ public class NonRightTriangleTool {
         });
 
         // draw the final triangle when the mouse is released
-        drawingArea.canvas.setOnMouseReleased(
-                event -> {
+        drawingArea.canvas.setOnMouseReleased(event -> {
 
             // get ending x and y
-            double endX =
-                    event.getX();
+            double endX =event.getX();
 
-            double endY =
-                    event.getY();
+            double endY =event.getY();
 
             // calculate width
-            double width =
-                    Math.abs(
-                            endX - drawingArea.startX
-                    );
+            double width = Math.abs(endX - drawingArea.startX);
 
             // calculate triangle height
-            double height =
-                    width * Math.sqrt(3) / 2;
+            double height = width * Math.sqrt(3) / 2;
 
             // find left side
-            double leftX =
-                    Math.min(
-                            drawingArea.startX,
-                            endX
-                    );
+            double leftX =Math.min(drawingArea.startX,endX);
 
             // find right side
-            double rightX =
-                    Math.max(
-                            drawingArea.startX,
-                            endX
-                    );
+            double rightX =Math.max(drawingArea.startX,endX);
 
             // find middle x position
-            double middleX =
-                    (leftX + rightX) / 2;
+            double middleX =(leftX + rightX) / 2;
 
-            double topY =
-                    drawingArea.startY;
+            double topY = drawingArea.startY;
 
             double bottomY;
 
             if (endY >= drawingArea.startY) {
 
-                bottomY =
-                        drawingArea.startY
-                        + height;
+                bottomY =drawingArea.startY + height;
 
             } else {
-
-                bottomY =
-                        drawingArea.startY
-                        - height;
+                bottomY =drawingArea.startY- height;
             }
 
             // create the three x points
@@ -256,19 +192,13 @@ public class NonRightTriangleTool {
             };
 
             // hide the temporary preview
-            previewTriangle.setVisible(
-                    false
-            );
+            previewTriangle.setVisible(false);
 
             // apply selected line width
-            drawingArea.gc.setLineWidth(
-                    drawingArea.lineWidth
-            );
+            drawingArea.gc.setLineWidth(drawingArea.lineWidth);
 
             // apply selected line color
-            drawingArea.gc.setStroke(
-                    drawingArea.lineColor
-            );
+            drawingArea.gc.setStroke(drawingArea.lineColor);
 
             // draw the final triangle
             drawingArea.gc.strokePolygon(
@@ -278,8 +208,7 @@ public class NonRightTriangleTool {
             );
 
             // mark drawing as changed
-            drawingArea.modified =
-                    true;
+            drawingArea.modified = true;
         });
     }
 }

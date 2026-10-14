@@ -16,9 +16,8 @@ import javafx.scene.paint.Color;
 public class ColorGrabber {
     
     /**
-    * Sets up the color grabber tool so user
-    * can click on drawing and use color for drawing
-    * 
+    * Sets up the color grabber tool so user can click on the picture and 
+    * that specific color for drawing
     * 
     * @param drawingArea the drawing area where image is displayed
     * @param colorPicker the color picker that shows the selected color
@@ -36,8 +35,7 @@ public class ColorGrabber {
         drawingArea.canvas.setOnMouseClicked(event -> {
 
             // get one image containing the picture and current drawing
-            WritableImage image =
-                    drawingArea.getEditedImage();
+            WritableImage image = drawingArea.getEditedImage();
 
             // get the x and y position where the user clicked
             int x = (int) event.getX();
@@ -50,24 +48,16 @@ public class ColorGrabber {
                     && y < image.getHeight()) {
 
                 // get the color of the pixel that was clicked
-                Color selectedColor =
-                        image.getPixelReader()
-                                .getColor(x, y);
+                Color selectedColor = image.getPixelReader().getColor(x, y);
                 
                 // make the grabbed color the new drawing color
-                drawingArea.lineColor =
-                        selectedColor;
+                drawingArea.lineColor = selectedColor;
 
                 // updated the color picker to show the new color
-                colorPicker.setValue(
-                        selectedColor
-                );
+                colorPicker.setValue(selectedColor);
 
                 // update label
-                ColorTextLabel.update(
-                        selectedColor,
-                        colorText
-                );
+                ColorTextLabel.update(selectedColor,colorText);
             }
         });
     }

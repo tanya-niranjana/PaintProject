@@ -26,16 +26,10 @@ public class SetImage {
         drawingArea.imageView.setImage(image);
         
         // make the main drawing canvas the same size as the image
-        drawingArea.canvas.setWidth(
-                image.getWidth()
-        );
+        drawingArea.canvas.setWidth(image.getWidth());
 
-        drawingArea.canvas.setHeight(
-                image.getHeight()
-        );
+        drawingArea.canvas.setHeight(image.getHeight());
 
-        
-        
         // make the drawing area match the image size
         drawingArea.drawingPane.setPrefSize(
             image.getWidth(),

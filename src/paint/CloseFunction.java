@@ -14,41 +14,39 @@ import javafx.stage.Stage;
 import static paint.GuiImage.drawingArea;
 
 /**
- * Closes the function as well as 
- * warns user if they try exiting
+ * Closes the function as well as warns user if they try exiting
  * without saving
  * 
  * @author tanya
  */
 public class CloseFunction {
+/**
+ * Sets up the warning that appears when the user tries to close the program
+ * with unsaved changes. 
+ * 
+ * @param stage the main paint window
+ * @param saveItem the menu item used to save the image
+ */
+    
     public static void setup(Stage stage, MenuItem saveItem) {
 
         // warn the user before closing if there are unsaved changes 
         stage.setOnCloseRequest(event -> {
             if (drawingArea.isModified()) { // only show the warning if something has changed
                 
-                Alert alert = new Alert(
-                    Alert.AlertType.CONFIRMATION
-                );
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 
                 alert.setTitle("Unsaved Changes");
-                alert.setHeaderText(
-                        "You have unsaved changes."
-                );
+                alert.setHeaderText("You have unsaved changes.");
                 
-                alert.setContentText(
-                    "Would you like ot save before closing?"
-                );
+                alert.setContentText("Would you like ot save before closing?");
                 
                 // create save, dont save, and cancel choices 
-                ButtonType saveButton =
-                        new ButtonType("Save");
+                ButtonType saveButton = new ButtonType("Save");
                 
-                ButtonType dontSaveButton = 
-                        new ButtonType("Don't Save");
+                ButtonType dontSaveButton = new ButtonType("Don't Save");
                 
-                ButtonType cancelButton = 
-                        ButtonType.CANCEL;
+                ButtonType cancelButton = ButtonType.CANCEL;
                 
                 alert.getButtonTypes().setAll(
                     saveButton,
@@ -57,11 +55,9 @@ public class CloseFunction {
                 );
                 
                 // wait for the user to choose what they want to do
-                Optional<ButtonType> result =
-                        alert.showAndWait();
+                Optional<ButtonType> result = alert.showAndWait();
                 
-                if (result.isPresent()
-                        && result.get() == saveButton) {
+                if (result.isPresent() && result.get() == saveButton) {
                     
                     // save the file before closing 
                     saveItem.fire();
@@ -71,14 +67,10 @@ public class CloseFunction {
                         event.consume(); //stop the window from closing
                     }
                     
-                } else if (result.isPresent()
-                        && result.get()
-                            == dontSaveButton) {
-                    
+                } else if (result.isPresent()&& result.get()== dontSaveButton) {
                     // allow the window to close
                     
                 } else {
-                    
                     //cancel closing
                     event.consume();
                 }

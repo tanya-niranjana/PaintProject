@@ -28,14 +28,11 @@ public class ColorTextLabel {
 
         // converts color into a number from 0 to 255
         
-        int red =
-                (int) (color.getRed() * 255);
+        int red =(int) (color.getRed() * 255);
 
-        int green =
-                (int) (color.getGreen() * 255);
+        int green = (int) (color.getGreen() * 255);
 
-        int blue =
-                (int) (color.getBlue() * 255);
+        int blue = (int) (color.getBlue() * 255);
         
         // converts RBG value into hex value
 

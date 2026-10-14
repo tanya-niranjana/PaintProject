@@ -29,24 +29,17 @@ public class RegularPolygonTool {
             DrawingArea drawingArea) {
 
         // ask the user how many sides the polygon should have
-        TextInputDialog dialog =
-                new TextInputDialog("5");
+        TextInputDialog dialog = new TextInputDialog("5");
 
-        dialog.setTitle(
-                "Regular Polygon"
+        dialog.setTitle("Regular Polygon"
         );
 
-        dialog.setHeaderText(
-                "Enter the number of sides"
-        );
+        dialog.setHeaderText("Enter the number of sides");
 
-        dialog.setContentText(
-                "Sides:"
-        );
+        dialog.setContentText("Sides:");
 
         // wait for the user to enter a value
-        Optional<String> result =
-                dialog.showAndWait();
+        Optional<String> result = dialog.showAndWait();
 
         // stop if the user cancels
         if (result.isEmpty()) {
@@ -58,26 +51,16 @@ public class RegularPolygonTool {
         try {
 
             // turn the user's answer into a number
-            sides =
-                    Integer.parseInt(
-                            result.get()
-                    );
+            sides =Integer.parseInt(result.get());
 
         } catch (NumberFormatException e) {
 
             // show an error if the user did not enter a number
-            Alert alert =
-                    new Alert(
-                            Alert.AlertType.ERROR
-                    );
+            Alert alert =new Alert(Alert.AlertType.ERROR);
 
-            alert.setTitle(
-                    "Invalid Number"
-            );
+            alert.setTitle("Invalid Number");
 
-            alert.setHeaderText(
-                    "Please enter a whole number."
-            );
+            alert.setHeaderText("Please enter a whole number.");
 
             alert.showAndWait();
 
@@ -87,19 +70,9 @@ public class RegularPolygonTool {
         // a polygon must have at least 3 sides
         if (sides < 3) {
 
-            Alert alert =
-                    new Alert(
-                            Alert.AlertType.ERROR
-                    );
-
-            alert.setTitle(
-                    "Invalid Polygon"
-            );
-
-            alert.setHeaderText(
-                    "A polygon must have at least 3 sides."
-            );
-
+            Alert alert =new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Invalid Polygon");
+            alert.setHeaderText("A polygon must have at least 3 sides.");
             alert.showAndWait();
 
             return;
@@ -112,58 +85,39 @@ public class RegularPolygonTool {
         drawingArea.canvas.setOnMouseClicked(null);
 
         // create temporary polygon for the live preview
-        Polygon previewPolygon =
-                new Polygon();
+        Polygon previewPolygon = new Polygon();
 
         // polygon should only have an outline
-        previewPolygon.setFill(
-                Color.TRANSPARENT
-        );
+        previewPolygon.setFill(Color.TRANSPARENT);
 
         // make sure preview does not block the mouse
-        previewPolygon.setMouseTransparent(
-                true
-        );
+        previewPolygon.setMouseTransparent(true);
 
         // hide preview until drawing begins
-        previewPolygon.setVisible(
-                false
-        );
+        previewPolygon.setVisible(false);
 
         // add preview above the canvas
-        drawingArea.drawingPane.getChildren().add(
-                previewPolygon
-        );
+        drawingArea.drawingPane.getChildren().add(previewPolygon);
 
         // save the center point when the mouse is pressed
-        drawingArea.canvas.setOnMousePressed(
-                event -> {
+        drawingArea.canvas.setOnMousePressed(event -> {
 
             // save current image before drawing the polygon
-            UndoRedo.saveState(
-                    drawingArea
-            );
+            UndoRedo.saveState(drawingArea);
 
             // starting point becomes the center of the polygon
-            drawingArea.startX =
-                    event.getX();
+            drawingArea.startX = event.getX();
 
-            drawingArea.startY =
-                    event.getY();
+            drawingArea.startY = event.getY();
 
             // apply selected line width
-            previewPolygon.setStrokeWidth(
-                    drawingArea.lineWidth
-            );
+            previewPolygon.setStrokeWidth(drawingArea.lineWidth);
 
             // apply selected line color
-            previewPolygon.setStroke(
-                    drawingArea.lineColor
-            );
+            previewPolygon.setStroke(drawingArea.lineColor);
 
             // copy dashed outline setting if turned on
-            double[] dashes =
-                    drawingArea.gc.getLineDashes();
+            double[] dashes = drawingArea.gc.getLineDashes();
 
             previewPolygon.getStrokeDashArray().clear();
 
@@ -171,9 +125,7 @@ public class RegularPolygonTool {
 
                 for (double dash : dashes) {
 
-                    previewPolygon.getStrokeDashArray().add(
-                            dash
-                    );
+                    previewPolygon.getStrokeDashArray().add(dash );
                 }
             }
 
@@ -181,34 +133,22 @@ public class RegularPolygonTool {
             previewPolygon.getPoints().clear();
 
             // show the live preview
-            previewPolygon.setVisible(
-                    true
+            previewPolygon.setVisible(true
             );
         });
 
         // update polygon while the mouse is dragged
-        drawingArea.canvas.setOnMouseDragged(
-                event -> {
+        drawingArea.canvas.setOnMouseDragged(event -> {
 
             // get current mouse location
-            double endX =
-                    event.getX();
+            double endX = event.getX();
 
-            double endY =
-                    event.getY();
+            double endY = event.getY();
 
             // calculate distance from center
-            double radius =
-                    Math.sqrt(
-                            Math.pow(
-                                    endX - drawingArea.startX,
-                                    2
-                            )
+            double radius = Math.sqrt(Math.pow(endX - drawingArea.startX,2)
                             +
-                            Math.pow(
-                                    endY - drawingArea.startY,
-                                    2
-                            )
+                            Math.pow(endY - drawingArea.startY,2)
                     );
 
             // remove old preview points
@@ -218,71 +158,43 @@ public class RegularPolygonTool {
             for (int i = 0; i < sides; i++) {
 
                 // evenly space each point around a circle
-                double angle =
-                        -Math.PI / 2
-                        + i
-                        * (2 * Math.PI / sides);
+                double angle = -Math.PI / 2 + i * (2 * Math.PI / sides);
 
                 // calculate x location
-                double x =
-                        drawingArea.startX
-                        + radius
-                        * Math.cos(angle);
+                double x = drawingArea.startX + radius * Math.cos(angle);
 
                 // calculate y location
-                double y =
-                        drawingArea.startY
-                        + radius
-                        * Math.sin(angle);
+                double y = drawingArea.startY+ radius * Math.sin(angle);
 
                 // add the point to the live preview
-                previewPolygon.getPoints().addAll(
-                        x,
-                        y
-                );
+                previewPolygon.getPoints().addAll(x,y);
             }
         });
 
         // draw the polygon when the mouse is released
-        drawingArea.canvas.setOnMouseReleased(
-                event -> {
+        drawingArea.canvas.setOnMouseReleased(event -> {
 
             // get ending location
-            double endX =
-                    event.getX();
+            double endX = event.getX();
 
-            double endY =
-                    event.getY();
+            double endY = event.getY();
 
             // calculate the distance from the center
-            double radius =
-                    Math.sqrt(
-                            Math.pow(
-                                    endX - drawingArea.startX,
-                                    2
-                            )
+            double radius = Math.sqrt(Math.pow(endX - drawingArea.startX,2)
                             +
-                            Math.pow(
-                                    endY - drawingArea.startY,
-                                    2
-                            )
+                            Math.pow(endY - drawingArea.startY,2)
                     );
 
             // create arrays to hold each polygon point
-            double[] xPoints =
-                    new double[sides];
+            double[] xPoints = new double[sides];
 
-            double[] yPoints =
-                    new double[sides];
+            double[] yPoints = new double[sides];
 
             // calculate all points around the polygon
             for (int i = 0; i < sides; i++) {
 
                 // evenly space each point around a circle
-                double angle =
-                        -Math.PI / 2
-                        + i
-                        * (2 * Math.PI / sides);
+                double angle = -Math.PI / 2+ i * (2 * Math.PI / sides);
 
                 // calculate x location
                 xPoints[i] =
@@ -298,19 +210,13 @@ public class RegularPolygonTool {
             }
 
             // hide temporary preview
-            previewPolygon.setVisible(
-                    false
-            );
+            previewPolygon.setVisible(false);
 
             // apply selected line width
-            drawingArea.gc.setLineWidth(
-                    drawingArea.lineWidth
-            );
+            drawingArea.gc.setLineWidth(drawingArea.lineWidth);
 
             // apply selected line color
-            drawingArea.gc.setStroke(
-                    drawingArea.lineColor
-            );
+            drawingArea.gc.setStroke(drawingArea.lineColor);
 
             // draw final polygon
             drawingArea.gc.strokePolygon(
@@ -320,8 +226,7 @@ public class RegularPolygonTool {
             );
 
             // mark drawing as changed
-            drawingArea.modified =
-                    true;
+            drawingArea.modified = true;
         });
     }
 }

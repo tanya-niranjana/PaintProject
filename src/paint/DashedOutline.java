@@ -32,7 +32,6 @@ public class DashedOutline {
      
     public static void turnOff(
             DrawingArea drawingArea) {
-
         // removes dash and returns to solid line
         drawingArea.gc.setLineDashes(null);
     }

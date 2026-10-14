@@ -34,59 +34,40 @@ public class DiamondTool {
         drawingArea.canvas.setOnMouseClicked(null);
 
         // create temporary diamond for the live preview
-        Polygon previewDiamond =
-                new Polygon();
+        Polygon previewDiamond = new Polygon();
 
         // diamond should only have an outline
-        previewDiamond.setFill(
-                Color.TRANSPARENT
-        );
+        previewDiamond.setFill(Color.TRANSPARENT);
 
         // make sure preview does not block the mouse
-        previewDiamond.setMouseTransparent(
-                true
-        );
+        previewDiamond.setMouseTransparent(true);
 
         // hide preview until drawing begins
-        previewDiamond.setVisible(
-                false
-        );
+        previewDiamond.setVisible(false);
 
         // add preview above the canvas
-        drawingArea.drawingPane.getChildren().add(
-                previewDiamond
-        );
+        drawingArea.drawingPane.getChildren().add(previewDiamond);
         
         // save the starting point when the mouse is pressed
-        drawingArea.canvas.setOnMousePressed(
-                event -> {
+        drawingArea.canvas.setOnMousePressed(event -> {
 
             // save the current image before drawing the new diamond
-            UndoRedo.saveState(
-                    drawingArea
-            );         
+            UndoRedo.saveState(drawingArea);         
                     
             // starting x
-            drawingArea.startX =
-                    event.getX();
+            drawingArea.startX = event.getX();
 
             // starting y
-            drawingArea.startY =
-                    event.getY();
+            drawingArea.startY = event.getY();
 
             // apply proper line width
-            previewDiamond.setStrokeWidth(
-                    drawingArea.lineWidth
-            );
+            previewDiamond.setStrokeWidth(drawingArea.lineWidth);
 
             // apply proper line color
-            previewDiamond.setStroke(
-                    drawingArea.lineColor
-            );
+            previewDiamond.setStroke(drawingArea.lineColor);
 
             // copy dashed outline setting if turned on
-            double[] dashes =
-                    drawingArea.gc.getLineDashes();
+            double[] dashes = drawingArea.gc.getLineDashes();
 
             previewDiamond.getStrokeDashArray().clear();
 
@@ -94,9 +75,7 @@ public class DiamondTool {
 
                 for (double dash : dashes) {
 
-                    previewDiamond.getStrokeDashArray().add(
-                            dash
-                    );
+                    previewDiamond.getStrokeDashArray().add(dash);
                 }
             }
 
@@ -126,18 +105,14 @@ public class DiamondTool {
                 event -> {
 
             // get current ending x and y
-            double endX =
-                    event.getX();
+            double endX = event.getX();
 
-            double endY =
-                    event.getY();
+            double endY = event.getY();
 
             // find middle x and y
-            double middleX =
-                    (drawingArea.startX + endX) / 2;
+            double middleX = (drawingArea.startX + endX) / 2;
 
-            double middleY =
-                    (drawingArea.startY + endY) / 2;
+            double middleY = (drawingArea.startY + endY) / 2;
 
             // update the four points of the live diamond
             previewDiamond.getPoints().setAll(
@@ -156,22 +131,17 @@ public class DiamondTool {
         });
 
         // draw diamond when mouse is released
-        drawingArea.canvas.setOnMouseReleased(
-                event -> {
+        drawingArea.canvas.setOnMouseReleased(event -> {
 
             // get ending x and y
-            double endX =
-                    event.getX();
+            double endX = event.getX();
 
-            double endY =
-                    event.getY();
+            double endY = event.getY();
 
             // find middle x and y
-            double middleX =
-                    (drawingArea.startX + endX) / 2;
+            double middleX = (drawingArea.startX + endX) / 2;
 
-            double middleY =
-                    (drawingArea.startY + endY) / 2;
+            double middleY = (drawingArea.startY + endY) / 2;
 
             // create x points of diamond
             double[] xPoints = {
@@ -190,19 +160,13 @@ public class DiamondTool {
             };
 
             // hide temporary preview
-            previewDiamond.setVisible(
-                    false
-            );
+            previewDiamond.setVisible(false);
             
             // apply the proper line width
-            drawingArea.gc.setLineWidth(
-                    drawingArea.lineWidth
-            );
+            drawingArea.gc.setLineWidth(drawingArea.lineWidth);
 
             // apply the proper line color
-            drawingArea.gc.setStroke(
-                    drawingArea.lineColor
-            );
+            drawingArea.gc.setStroke(drawingArea.lineColor);
 
             // draw diamond using 4 points
             drawingArea.gc.strokePolygon(
@@ -212,8 +176,7 @@ public class DiamondTool {
             );
 
             // drawing has been modified
-            drawingArea.modified =
-                    true;
+            drawingArea.modified = true;
         });
     }
 }

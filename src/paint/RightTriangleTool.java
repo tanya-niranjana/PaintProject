@@ -31,44 +31,30 @@ public class RightTriangleTool {
         drawingArea.canvas.setOnMouseClicked(null);
 
         // create temporary triangle for the live preview
-        Polygon previewTriangle =
-                new Polygon();
+        Polygon previewTriangle = new Polygon();
 
         // triangle should only have an outline
-        previewTriangle.setFill(
-                Color.TRANSPARENT
-        );
+        previewTriangle.setFill(Color.TRANSPARENT);
 
         // make sure the preview does not block the mouse
-        previewTriangle.setMouseTransparent(
-                true
-        );
+        previewTriangle.setMouseTransparent(true);
 
         // hide preview until drawing begins
-        previewTriangle.setVisible(
-                false
-        );
+        previewTriangle.setVisible(false);
 
         // add preview above the canvas
-        drawingArea.drawingPane.getChildren().add(
-                previewTriangle
-        );
+        drawingArea.drawingPane.getChildren().add(previewTriangle);
 
         // save the starting point when the mouse is pressed
-        drawingArea.canvas.setOnMousePressed(
-                event -> {
+        drawingArea.canvas.setOnMousePressed(event -> {
 
             // save current image before drawing the triangle
-            UndoRedo.saveState(
-                    drawingArea
-            );
+            UndoRedo.saveState(drawingArea);
 
             // save starting x and y
-            drawingArea.startX =
-                    event.getX();
+            drawingArea.startX = event.getX();
 
-            drawingArea.startY =
-                    event.getY();
+            drawingArea.startY = event.getY();
 
             // apply selected line width
             previewTriangle.setStrokeWidth(
@@ -76,9 +62,7 @@ public class RightTriangleTool {
             );
 
             // apply selected line color
-            previewTriangle.setStroke(
-                    drawingArea.lineColor
-            );
+            previewTriangle.setStroke(drawingArea.lineColor);
 
             // copy dashed outline setting if turned on
             double[] dashes =
@@ -87,12 +71,8 @@ public class RightTriangleTool {
             previewTriangle.getStrokeDashArray().clear();
 
             if (dashes != null) {
-
                 for (double dash : dashes) {
-
-                    previewTriangle.getStrokeDashArray().add(
-                            dash
-                    );
+                    previewTriangle.getStrokeDashArray().add(dash);
                 }
             }
 
@@ -109,21 +89,16 @@ public class RightTriangleTool {
             );
 
             // show the live preview
-            previewTriangle.setVisible(
-                    true
-            );
+            previewTriangle.setVisible(true);
         });
 
         // update the right triangle while the mouse is dragged
-        drawingArea.canvas.setOnMouseDragged(
-                event -> {
+        drawingArea.canvas.setOnMouseDragged(event -> {
 
             // get current ending location
-            double endX =
-                    event.getX();
+            double endX = event.getX();
 
-            double endY =
-                    event.getY();
+            double endY = event.getY();
 
             // update the three triangle points
             previewTriangle.getPoints().setAll(
@@ -139,15 +114,12 @@ public class RightTriangleTool {
         });
 
         // draw the final right triangle when the mouse is released
-        drawingArea.canvas.setOnMouseReleased(
-                event -> {
+        drawingArea.canvas.setOnMouseReleased(event -> {
 
             // get ending x and y
-            double endX =
-                    event.getX();
+            double endX = event.getX();
 
-            double endY =
-                    event.getY();
+            double endY = event.getY();
 
             // create the three x points
             double[] xPoints = {
@@ -164,19 +136,13 @@ public class RightTriangleTool {
             };
 
             // hide temporary preview
-            previewTriangle.setVisible(
-                    false
-            );
+            previewTriangle.setVisible(false);
 
             // apply selected line width
-            drawingArea.gc.setLineWidth(
-                    drawingArea.lineWidth
-            );
+            drawingArea.gc.setLineWidth(drawingArea.lineWidth);
 
             // apply selected line color
-            drawingArea.gc.setStroke(
-                    drawingArea.lineColor
-            );
+            drawingArea.gc.setStroke(drawingArea.lineColor);
 
             // draw the final triangle
             drawingArea.gc.strokePolygon(
@@ -186,8 +152,7 @@ public class RightTriangleTool {
             );
 
             // mark drawing as changed
-            drawingArea.modified =
-                    true;
+            drawingArea.modified = true;
         });
     }
 }

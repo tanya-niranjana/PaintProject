@@ -18,8 +18,7 @@ public class PencilTool {
     * 
     * @param drawingArea the drawing area where freehand drawing is created
     */
-    public static void setupDrawing(
-            DrawingArea drawingArea) {
+    public static void setupDrawing(DrawingArea drawingArea) {
 
         // turn off mouse control from the previous tool
         drawingArea.canvas.setOnMousePressed(null);
@@ -28,21 +27,16 @@ public class PencilTool {
         drawingArea.canvas.setOnMouseDragged(null);
 
         // start the pencil path when the mouse is pressed. 
-        drawingArea.canvas.setOnMousePressed(
-                (MouseEvent event) -> {
+        drawingArea.canvas.setOnMousePressed((MouseEvent event) -> {
 
             // save the current image before drawing with the pencil
             UndoRedo.saveState(drawingArea);        
                     
             // apply the selected line width
-            drawingArea.gc.setLineWidth(
-                    drawingArea.lineWidth
-            );
+            drawingArea.gc.setLineWidth(drawingArea.lineWidth);
 
             // apply the selected line color
-            drawingArea.gc.setStroke(
-                    drawingArea.lineColor
-            );
+            drawingArea.gc.setStroke(drawingArea.lineColor);
 
             // begin a new drawing path
             drawingArea.gc.beginPath();
@@ -55,8 +49,7 @@ public class PencilTool {
         });
 
         // draw feeling while the user drags the mouse
-        drawingArea.canvas.setOnMouseDragged(
-                (MouseEvent event) -> {
+        drawingArea.canvas.setOnMouseDragged((MouseEvent event) -> {
 
             // extend the line to the current mouse position
             drawingArea.gc.lineTo(
@@ -72,8 +65,7 @@ public class PencilTool {
         });
 
         // finish the pencil path when the mouse is released
-        drawingArea.canvas.setOnMouseReleased(
-                event -> {
+        drawingArea.canvas.setOnMouseReleased(event -> {
 
             // close the current drawing path
             drawingArea.gc.closePath();

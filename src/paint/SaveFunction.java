@@ -41,28 +41,22 @@ public class SaveFunction {
                 if (currentFile != null) {
                     
                     // get a snapshot containing the original image and drawings
-                    WritableImage editedImage =
-                            drawingArea.getEditedImage();
+                    WritableImage editedImage = drawingArea.getEditedImage();
                     
                     // convert the javafx image into a format ImageIO can save
-                    BufferedImage bufferedImage =
-                            SwingFXUtils.fromFXImage(
-                                    editedImage,
-                                    null
-                            );
+                    BufferedImage bufferedImage = SwingFXUtils.fromFXImage(editedImage,null);
                     
-                    String fileName =
-                            currentFile.getName().toLowerCase();
+                    String fileName = currentFile.getName().toLowerCase();
                     
                     // determine which image format should be used 
                     String format = "png";
                     
-                    if (fileName.endsWith(".jpg")
-                            || fileName.endsWith(".jpeg")) {
+                    if (fileName.endsWith(".jpg")|| fileName.endsWith(".jpeg")) {
                         
                         format = "jpg";
                     
-                    }else if (fileName.endsWith(".bmp")) {
+                    }
+                    else if (fileName.endsWith(".bmp")) {
                         
                         format = "bmp";
                     }

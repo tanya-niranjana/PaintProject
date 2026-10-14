@@ -50,9 +50,7 @@ public class UndoRedo {
 
             if (GuiImage.drawingArea != null) {
 
-                undo(
-                        GuiImage.drawingArea
-                );
+                undo(GuiImage.drawingArea);
             }
         });
 
@@ -61,9 +59,7 @@ public class UndoRedo {
 
             if (GuiImage.drawingArea != null) {
 
-                redo(
-                        GuiImage.drawingArea
-                );
+                redo(GuiImage.drawingArea);
             }
         });
     }
@@ -74,15 +70,12 @@ public class UndoRedo {
      *
      * @param drawingArea the drawing area whose current state is saved
      */
-    public static void saveState(
-            DrawingArea drawingArea) {
+    public static void saveState(DrawingArea drawingArea) {
 
         if (drawingArea != null) {
 
             // save the current image on the Undo stack
-            drawingArea.undoStack.push(
-                    drawingArea.getEditedImage()
-            );
+            drawingArea.undoStack.push(drawingArea.getEditedImage());
 
             // a new change removes old Redo states
             drawingArea.redoStack.clear();
@@ -102,13 +95,10 @@ public class UndoRedo {
         if (!drawingArea.undoStack.empty()) {
 
             // save the current state so it can be redone
-            drawingArea.redoStack.push(
-                    drawingArea.getEditedImage()
-            );
+            drawingArea.redoStack.push(drawingArea.getEditedImage());
 
             // get the previous image from the Undo stack
-            WritableImage previousImage =
-                    drawingArea.undoStack.pop();
+            WritableImage previousImage = drawingArea.undoStack.pop();
 
             // restore the previous image
             restoreImage(
@@ -131,13 +121,10 @@ public class UndoRedo {
         if (!drawingArea.redoStack.empty()) {
 
             // save the current state back onto the Undo stack
-            drawingArea.undoStack.push(
-                    drawingArea.getEditedImage()
-            );
+            drawingArea.undoStack.push(drawingArea.getEditedImage());
 
             // get the next image from the Redo stack
-            WritableImage nextImage =
-                    drawingArea.redoStack.pop();
+            WritableImage nextImage = drawingArea.redoStack.pop();
 
             // restore the redone image
             restoreImage(
@@ -154,21 +141,15 @@ public class UndoRedo {
      * @param drawingArea the drawing area being restored
      * @param image the saved image state being restored
      */
-    private static void restoreImage(
-            DrawingArea drawingArea,
-            WritableImage image) {
+    private static void restoreImage(DrawingArea drawingArea,WritableImage image) {
 
         // place the saved image into the image display
         drawingArea.imageView.setImage(image);
 
         // resize the canvas to match the restored image
-        drawingArea.canvas.setWidth(
-                image.getWidth()
-        );
+        drawingArea.canvas.setWidth(image.getWidth());
 
-        drawingArea.canvas.setHeight(
-                image.getHeight()
-        );
+        drawingArea.canvas.setHeight(image.getHeight());
 
         // clear the canvas because the restored image
         // already contains the previous drawings

@@ -21,8 +21,7 @@ public class ClearCanvas {
      *
      * @param clearItem the menu item used to clear the canvas
      */
-    public static void setup(
-            MenuItem clearItem) {
+    public static void setup(MenuItem clearItem) {
 
         // clear the canvas when the menu item is selected
         clearItem.setOnAction(event -> {
@@ -32,37 +31,25 @@ public class ClearCanvas {
 
                 // create a confirmation message
                 Alert alert =
-                        new Alert(
-                                Alert.AlertType.CONFIRMATION
-                        );
+                        new Alert(Alert.AlertType.CONFIRMATION);
 
-                alert.setTitle(
-                        "Clear Canvas"
-                );
+                alert.setTitle("Clear Canvas");
 
-                alert.setHeaderText(
-                        "Are you sure you want to clear the canvas?"
-                );
+                alert.setHeaderText("Are you sure you want to clear the canvas?");
 
-                alert.setContentText(
-                        "This will remove everything from the current image."
-                );
+                alert.setContentText("This will remove everything from the current image.");
 
                 // wait for the user to choose OK or Cancel
-                alert.showAndWait().ifPresent(
-                        response -> {
+                alert.showAndWait().ifPresent(response -> {
 
                     // only clear if the user chooses OK
                     if (response == ButtonType.OK) {
 
                         // save current image so Clear can be undone
-                        UndoRedo.saveState(
-                                GuiImage.drawingArea
-                        );
+                        UndoRedo.saveState(GuiImage.drawingArea);
 
                         // remove the original image
-                        GuiImage.drawingArea.imageView
-                                .setImage(null);
+                        GuiImage.drawingArea.imageView.setImage(null);
 
                         // clear everything drawn on the canvas
                         GuiImage.drawingArea.gc.clearRect(

@@ -43,17 +43,11 @@ public class CopySelection {
                                 Alert.AlertType.INFORMATION
                         );
 
-                alert.setTitle(
-                        "Copy Selection"
-                );
+                alert.setTitle("Copy Selection");
 
-                alert.setHeaderText(
-                        "No area is selected."
-                );
+                alert.setHeaderText("No area is selected.");
 
-                alert.setContentText(
-                        "Use the Select tool before copying."
-                );
+                alert.setContentText("Use the Select tool before copying.");
 
                 alert.showAndWait();
 
@@ -61,35 +55,22 @@ public class CopySelection {
             }
 
             // get one image containing the original picture and drawings
-            WritableImage fullImage =
-                    drawingArea.getEditedImage();
+            WritableImage fullImage = drawingArea.getEditedImage();
 
             // get the selected starting location
-            int x =
-                    (int) drawingArea.selectionX;
+            int x = (int) drawingArea.selectionX;
 
-            int y =
-                    (int) drawingArea.selectionY;
+            int y = (int) drawingArea.selectionY;
 
             // get the selected width and height
-            int width =
-                    (int) drawingArea.selectionWidth;
+            int width = (int) drawingArea.selectionWidth;
 
-            int height =
-                    (int) drawingArea.selectionHeight;
+            int height = (int) drawingArea.selectionHeight;
 
             // keep the selection inside the image
-            width =
-                    Math.min(
-                            width,
-                            (int) fullImage.getWidth() - x
-                    );
+            width =Math.min(width,(int) fullImage.getWidth() - x);
 
-            height =
-                    Math.min(
-                            height,
-                            (int) fullImage.getHeight() - y
-                    );
+            height =Math.min(height,(int) fullImage.getHeight() - y);
 
             // make sure the selected area is valid
             if (width <= 0 || height <= 0) {
@@ -97,8 +78,7 @@ public class CopySelection {
             }
 
             // read the pixels from the entire image
-            PixelReader pixelReader =
-                    fullImage.getPixelReader();
+            PixelReader pixelReader = fullImage.getPixelReader();
 
             // copy only the selected pixels
             drawingArea.copiedImage =

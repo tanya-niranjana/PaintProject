@@ -76,6 +76,16 @@ public class GuiImage extends Application {
         // create the Edit menu
         Menu editMenu = new Menu("Edit");
 
+        // create View menu
+        Menu viewMenu = new Menu("View");
+
+        // option to show or hide autosave countdown
+        CheckMenuItem showTimerItem = new CheckMenuItem("Show Autosave Countdown");
+
+        showTimerItem.setSelected(true);
+
+        viewMenu.getItems().add(showTimerItem);
+        
         // create Undo and Redo options
         MenuItem undoItem = new MenuItem("Undo");
         MenuItem redoItem = new MenuItem("Redo");
@@ -206,6 +216,13 @@ public class GuiImage extends Application {
         );
         
         imageMenu.getItems().add(resizeItem);
+
+        // create web menu
+        Menu webMenu = new Menu("Web");
+        MenuItem selectWebImageItem = new MenuItem("Select Current Tab for Web");
+        MenuItem startServerItem = new MenuItem("Start Web Server");
+        MenuItem stopServerItem = new MenuItem("Stop Web Server");
+
         
         // put all menus inside the menu bar
         menuBar.getMenus().addAll(
@@ -213,9 +230,18 @@ public class GuiImage extends Application {
             editMenu,
             imageMenu,
             shapesMenu,
+            viewMenu,
+            webMenu,
             helpMenu
         );
 
+        
+        webMenu.getItems().addAll(
+        selectWebImageItem,
+        startServerItem,
+        stopServerItem
+        );
+        
         // move the selected part of the image
         moveItem.setOnAction(event -> {
 
@@ -330,12 +356,30 @@ public class GuiImage extends Application {
             }
         });
         
+        // add current tab image to website
+        selectWebImageItem.setOnAction(event -> {
+            WebServer.selectCurrentImage();
+        });
+
+        // start web server
+        startServerItem.setOnAction(event -> {
+            WebServer.startServer();
+        });
+
+        // stop web server
+        stopServerItem.setOnAction(event -> {
+            WebServer.stopServer();
+        });
+        
         // create the slide used to change line width
         Label widthLabel = new Label("Line Width"); 
         Slider lineWidthSlider = new Slider(1,20,3);
         
         Label pixelLabel = new Label("3 px");
 
+        // shows time left until autosave
+        Label autosaveLabel = new Label("Autosave: 60 sec");
+        
         // connect the slider to the line width controls
         WidthControls.setup(
                 lineWidthSlider,
@@ -364,7 +408,9 @@ public class GuiImage extends Application {
             pixelLabel,
             colorLabel,
             colorPicker,
-            colorText
+            colorText,
+            autosaveLabel
+                
         );
         
         // place the menu bar and drawing tools at the top of the window
@@ -450,10 +496,23 @@ public class GuiImage extends Application {
                 saveItem
         );
         
-        // connect New to the blank image function
-        BlankImage.setup(
-                newItem
+        // start autosave timer
+        AutoSave.setup(
+                saveItem,
+                autosaveLabel
         );
+        
+        // show or hide autosave countdown
+        showTimerItem.setOnAction(event -> {
+
+            autosaveLabel.setVisible(
+                    showTimerItem.isSelected()
+            );
+        });
+        
+        
+        // connect New to the blank image function
+        BlankImage.setup(newItem);
 
         
         

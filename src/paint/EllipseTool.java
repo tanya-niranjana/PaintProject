@@ -31,18 +31,13 @@ public class EllipseTool {
         drawingArea.canvas.setOnMouseClicked(null);
 
         // create temporary ellipse for the live preview
-        Ellipse previewEllipse =
-                new Ellipse();
+        Ellipse previewEllipse = new Ellipse();
 
         // ellipse should only have an outline
-        previewEllipse.setFill(
-                Color.TRANSPARENT
-        );
+        previewEllipse.setFill(Color.TRANSPARENT);
 
         // make sure the preview does not block the mouse
-        previewEllipse.setMouseTransparent(
-                true
-        );
+        previewEllipse.setMouseTransparent(true);
 
         // hide preview until drawing begins
         previewEllipse.setVisible(
@@ -59,29 +54,20 @@ public class EllipseTool {
                 event -> {
 
             // save the current image before drawing the new ellipse
-            UndoRedo.saveState(
-                    drawingArea
-            );
+            UndoRedo.saveState(drawingArea);
 
             // get the starting location of the ellipse
-            drawingArea.startX =
-                    event.getX();
+            drawingArea.startX = event.getX();
 
-            drawingArea.startY =
-                    event.getY();
+            drawingArea.startY = event.getY();
 
             // apply selected line width and color
-            previewEllipse.setStrokeWidth(
-                    drawingArea.lineWidth
-            );
+            previewEllipse.setStrokeWidth(drawingArea.lineWidth);
 
-            previewEllipse.setStroke(
-                    drawingArea.lineColor
-            );
+            previewEllipse.setStroke(drawingArea.lineColor);
 
             // copy dashed outline setting if turned on
-            double[] dashes =
-                    drawingArea.gc.getLineDashes();
+            double[] dashes = drawingArea.gc.getLineDashes();
 
             previewEllipse.getStrokeDashArray().clear();
 
@@ -89,87 +75,50 @@ public class EllipseTool {
 
                 for (double dash : dashes) {
 
-                    previewEllipse.getStrokeDashArray().add(
-                            dash
-                    );
+                    previewEllipse.getStrokeDashArray().add(dash);
                 }
             }
 
             // start ellipse with no size
-            previewEllipse.setCenterX(
-                    drawingArea.startX
-            );
+            previewEllipse.setCenterX(drawingArea.startX);
 
-            previewEllipse.setCenterY(
-                    drawingArea.startY
-            );
+            previewEllipse.setCenterY(drawingArea.startY);
 
-            previewEllipse.setRadiusX(
-                    0
-            );
+            previewEllipse.setRadiusX(0);
 
-            previewEllipse.setRadiusY(
-                    0
-            );
+            previewEllipse.setRadiusY(0);
 
             // show live preview
-            previewEllipse.setVisible(
-                    true
-            );
+            previewEllipse.setVisible(true);
         });
 
         // update the ellipse while the mouse is dragged
-        drawingArea.canvas.setOnMouseDragged(
-                event -> {
+        drawingArea.canvas.setOnMouseDragged(event -> {
 
             // get current mouse location
-            double endX =
-                    event.getX();
+            double endX = event.getX();
 
-            double endY =
-                    event.getY();
+            double endY = event.getY();
 
             // find left and top sides
-            double x =
-                    Math.min(
-                            drawingArea.startX,
-                            endX
-                    );
+            double x = Math.min(drawingArea.startX,endX);
 
-            double y =
-                    Math.min(
-                            drawingArea.startY,
-                            endY
-                    );
+            double y = Math.min(drawingArea.startY,endY);
 
             // calculate width and height
-            double width =
-                    Math.abs(
-                            endX - drawingArea.startX
-                    );
+            double width = Math.abs(endX - drawingArea.startX);
 
-            double height =
-                    Math.abs(
-                            endY - drawingArea.startY
-                    );
+            double height = Math.abs( endY - drawingArea.startY);
 
             // update center of live ellipse
-            previewEllipse.setCenterX(
-                    x + width / 2
-            );
+            previewEllipse.setCenterX( x + width / 2);
 
-            previewEllipse.setCenterY(
-                    y + height / 2
-            );
+            previewEllipse.setCenterY(y + height / 2);
 
             // update ellipse size
-            previewEllipse.setRadiusX(
-                    width / 2
-            );
+            previewEllipse.setRadiusX(width / 2);
 
-            previewEllipse.setRadiusY(
-                    height / 2
-            );
+            previewEllipse.setRadiusY(height / 2);
         });
 
         // draw the final ellipse when mouse is released
@@ -177,50 +126,28 @@ public class EllipseTool {
                 event -> {
 
             // get ending location
-            double endX =
-                    event.getX();
+            double endX = event.getX();
 
-            double endY =
-                    event.getY();
+            double endY = event.getY();
 
             // find the left side of the ellipse
-            double x =
-                    Math.min(
-                            drawingArea.startX,
-                            endX
-                    );
+            double x =Math.min(drawingArea.startX,endX);
 
             // find the top side of the ellipse
-            double y =
-                    Math.min(
-                            drawingArea.startY,
-                            endY
-                    );
+            double y =Math.min(drawingArea.startY,endY);
 
             // calculate width and height
-            double width =
-                    Math.abs(
-                            endX - drawingArea.startX
-                    );
+            double width =Math.abs(endX - drawingArea.startX);
 
-            double height =
-                    Math.abs(
-                            endY - drawingArea.startY
-                    );
+            double height =Math.abs(endY - drawingArea.startY);
 
             // hide temporary preview
-            previewEllipse.setVisible(
-                    false
-            );
+            previewEllipse.setVisible(false );
 
             // apply selected line width and color
-            drawingArea.gc.setLineWidth(
-                    drawingArea.lineWidth
-            );
+            drawingArea.gc.setLineWidth(drawingArea.lineWidth);
 
-            drawingArea.gc.setStroke(
-                    drawingArea.lineColor
-            );
+            drawingArea.gc.setStroke(drawingArea.lineColor);
 
             // draw the final ellipse
             drawingArea.gc.strokeOval(

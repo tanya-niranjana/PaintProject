@@ -20,8 +20,7 @@ public class RectangleTool {
      * 
      * @param drawingArea the drawing area where the rectangle is drawn
      */
-    public static void setupDrawing(
-            DrawingArea drawingArea) {
+    public static void setupDrawing(DrawingArea drawingArea) {
 
         // turn off controls from the previous tool
         drawingArea.canvas.setOnMousePressed(null);
@@ -30,64 +29,43 @@ public class RectangleTool {
         drawingArea.canvas.setOnMouseClicked(null);
 
         // create the temporary rectangle used for the live preview
-        Rectangle previewRectangle =
-                new Rectangle();
+        Rectangle previewRectangle = new Rectangle();
 
         // rectangle should only have an outline
-        previewRectangle.setFill(
-                Color.TRANSPARENT
-        );
+        previewRectangle.setFill(Color.TRANSPARENT);
 
         // make sure the preview does not block the mouse
-        previewRectangle.setMouseTransparent(
-                true
-        );
+        previewRectangle.setMouseTransparent(true);
 
         // hide the preview until drawing begins
-        previewRectangle.setVisible(
-                false
-        );
+        previewRectangle.setVisible(false);
 
         // add the preview rectangle above the canvas
-        drawingArea.drawingPane.getChildren().add(
-                previewRectangle
-        );
+        drawingArea.drawingPane.getChildren().add(previewRectangle);
 
         // save the starting point when the mouse is pressed
-        drawingArea.canvas.setOnMousePressed(
-                event -> {
+        drawingArea.canvas.setOnMousePressed(event -> {
 
             // save the current image before drawing the new rectangle
-            UndoRedo.saveState(
-                    drawingArea
-            );
+            UndoRedo.saveState(drawingArea);
 
             // get the starting location of the rectangle
-            drawingArea.startX =
-                    event.getX();
+            drawingArea.startX = event.getX();
 
-            drawingArea.startY =
-                    event.getY();
+            drawingArea.startY = event.getY();
 
             // apply the selected line width and color
-            previewRectangle.setStrokeWidth(
-                    drawingArea.lineWidth
-            );
+            previewRectangle.setStrokeWidth(drawingArea.lineWidth);
 
-            previewRectangle.setStroke(
-                    drawingArea.lineColor
-            );
+            previewRectangle.setStroke(drawingArea.lineColor);
 
             // copy the dashed outline setting if turned on
-            double[] dashes =
-                    drawingArea.gc.getLineDashes();
+            double[] dashes = drawingArea.gc.getLineDashes();
 
             previewRectangle.getStrokeDashArray().clear();
 
             if (dashes != null) {
-
                 for (double dash : dashes) {
-
                     previewRectangle.getStrokeDashArray().add(
                             dash
                     );
@@ -95,130 +73,72 @@ public class RectangleTool {
             }
 
             // start with a rectangle size of zero
-            previewRectangle.setX(
-                    drawingArea.startX
-            );
+            previewRectangle.setX(drawingArea.startX);
 
-            previewRectangle.setY(
-                    drawingArea.startY
-            );
+            previewRectangle.setY(drawingArea.startY);
 
-            previewRectangle.setWidth(
-                    0
-            );
+            previewRectangle.setWidth(0);
 
-            previewRectangle.setHeight(
-                    0
-            );
+            previewRectangle.setHeight(0);
 
             // show the preview
-            previewRectangle.setVisible(
-                    true
-            );
+            previewRectangle.setVisible(true);
         });
 
         // update the rectangle while the mouse is dragged
-        drawingArea.canvas.setOnMouseDragged(
-                event -> {
+        drawingArea.canvas.setOnMouseDragged(event -> {
 
             // get current mouse location
-            double endX =
-                    event.getX();
+            double endX =event.getX();
 
-            double endY =
-                    event.getY();
+            double endY = event.getY();
 
             // find the left and top sides
-            double x =
-                    Math.min(
-                            drawingArea.startX,
-                            endX
-                    );
+            double x =Math.min(drawingArea.startX,endX);
 
-            double y =
-                    Math.min(
-                            drawingArea.startY,
-                            endY
-                    );
+            double y =Math.min(drawingArea.startY,endY);
 
             // calculate width and height
-            double width =
-                    Math.abs(
-                            endX - drawingArea.startX
-                    );
+            double width =Math.abs(endX - drawingArea.startX);
 
-            double height =
-                    Math.abs(
-                            endY - drawingArea.startY
-                    );
+            double height =Math.abs(endY - drawingArea.startY);
 
             // update the live preview
-            previewRectangle.setX(
-                    x
-            );
+            previewRectangle.setX(x);
 
-            previewRectangle.setY(
-                    y
-            );
+            previewRectangle.setY(y);
 
-            previewRectangle.setWidth(
-                    width
-            );
+            previewRectangle.setWidth(width);
 
-            previewRectangle.setHeight(
-                    height
-            );
+            previewRectangle.setHeight(height);
         });
 
         // draw the final rectangle when the mouse is released
-        drawingArea.canvas.setOnMouseReleased(
-                event -> {
+        drawingArea.canvas.setOnMouseReleased(event -> {
 
             // get ending location
-            double endX =
-                    event.getX();
+            double endX = event.getX();
 
-            double endY =
-                    event.getY();
+            double endY = event.getY();
 
             // find the left side of rectangle
-            double x =
-                    Math.min(
-                            drawingArea.startX,
-                            endX
-                    );
+            double x = Math.min(drawingArea.startX,endX);
 
             // find top side of rectangle
-            double y =
-                    Math.min(
-                            drawingArea.startY,
-                            endY
-                    );
+            double y = Math.min(drawingArea.startY,endY);
 
             // calculate the rectangle width and height
-            double width =
-                    Math.abs(
-                            endX - drawingArea.startX
-                    );
+            double width =Math.abs(endX - drawingArea.startX);
 
-            double height =
-                    Math.abs(
-                            endY - drawingArea.startY
-                    );
+            double height =Math.abs(endY - drawingArea.startY);
 
             // hide the temporary preview
-            previewRectangle.setVisible(
-                    false
-            );
+            previewRectangle.setVisible(false);
 
             // apply line width and color
-            drawingArea.gc.setLineWidth(
-                    drawingArea.lineWidth
-            );
+            drawingArea.gc.setLineWidth(drawingArea.lineWidth);
 
-            drawingArea.gc.setStroke(
-                    drawingArea.lineColor
-            );
+            drawingArea.gc.setStroke(drawingArea.lineColor);
 
             // draw the final rectangle
             drawingArea.gc.strokeRect(
@@ -229,8 +149,7 @@ public class RectangleTool {
             );
 
             // mark the drawing as changed so it needs to be saved
-            drawingArea.modified =
-                    true;
+            drawingArea.modified = true;
         });
     }
 }

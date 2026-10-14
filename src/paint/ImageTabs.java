@@ -75,20 +75,16 @@ public class ImageTabs {
             if (newTab != null) {
 
                 // get the information stored in the selected tab
-                TabData data =
-                        (TabData) newTab.getUserData();
+                TabData data = (TabData) newTab.getUserData();
 
                 // make this tab's file the current file
-                GuiImage.currentFile =
-                        data.file;
+                GuiImage.currentFile =  data.file;
                 
                 // make this tab's image data the current image data
-                GuiImage.imageData =
-                        data.imageData;
+                GuiImage.imageData =  data.imageData;
 
                 // make this tab's drawing area the current drawing area
-                GuiImage.drawingArea =
-                        data.drawingArea;
+                GuiImage.drawingArea = data.drawingArea;
             }
         });
 
@@ -114,17 +110,12 @@ public class ImageTabs {
             double height) {
 
         // create a new drawing area
-        DrawingArea newDrawingArea =
-                new DrawingArea();
+        DrawingArea newDrawingArea = new DrawingArea();
 
         // make the canvas the requested size
-        newDrawingArea.canvas.setWidth(
-                width
-        );
+        newDrawingArea.canvas.setWidth(width);
 
-        newDrawingArea.canvas.setHeight(
-                height
-        );
+        newDrawingArea.canvas.setHeight(height);
 
         // make the drawing area match the canvas size
         newDrawingArea.drawingPane.setPrefSize(
@@ -133,9 +124,7 @@ public class ImageTabs {
         );
 
         // straight line is the default drawing tool
-        SetUpDrawing.setupDrawing(
-                newDrawingArea
-        );
+        SetUpDrawing.setupDrawing(newDrawingArea);
 
         // create a name for the blank tab
         String tabName =
@@ -146,13 +135,10 @@ public class ImageTabs {
         untitledNumber++;
 
         // create the new blank tab
-        Tab newTab =
-                new Tab(tabName);
+        Tab newTab = new Tab(tabName);
 
         // put the blank drawing area inside the tab
-        newTab.setContent(
-                newDrawingArea.getView()
-        );
+        newTab.setContent(newDrawingArea.getView());
 
         // blank images do not have a file or original image data yet
         newTab.setUserData(
@@ -167,9 +153,7 @@ public class ImageTabs {
         newTab.setClosable(true);
 
         // add the new tab
-        tabPane.getTabs().add(
-                newTab
-        );
+        tabPane.getTabs().add(newTab);
 
         // automatically select the blank tab
         tabPane.getSelectionModel()
@@ -188,19 +172,13 @@ public class ImageTabs {
         if (file != null) {
 
             // create a new drawing area for this image
-            DrawingArea newDrawingArea =
-                    new DrawingArea();
+            DrawingArea newDrawingArea = new DrawingArea();
 
             // straight line is the default drawing tool
-            SetUpDrawing.setupDrawing(
-                    newDrawingArea
-            );
+            SetUpDrawing.setupDrawing(newDrawingArea);
 
             // create an image from the selected file
-            Image image =
-                    new Image(
-                            file.toURI().toString()
-                    );
+            Image image =new Image(file.toURI().toString());
 
             // display the image inside the new drawing area
             newDrawingArea.setImage(image);
@@ -214,13 +192,10 @@ public class ImageTabs {
                         );
 
                 // create the new tab
-                Tab newTab =
-                        new Tab(file.getName());
+                Tab newTab = new Tab(file.getName());
 
                 // put the drawing area inside the tab
-                newTab.setContent(
-                        newDrawingArea.getView()
-                );
+                newTab.setContent(newDrawingArea.getView());
 
                 // store this tab's image information
                 newTab.setUserData(
@@ -235,9 +210,7 @@ public class ImageTabs {
                 newTab.setClosable(true);
 
                 // add the new tab
-                tabPane.getTabs().add(
-                        newTab
-                );
+                tabPane.getTabs().add(newTab);
 
                 // automatically select the new tab
                 tabPane.getSelectionModel()
@@ -280,13 +253,10 @@ public class ImageTabs {
             data.file = newFile;
 
             // change the tab name to the new file name
-            selectedTab.setText(
-                    newFile.getName()
-            );
+            selectedTab.setText(newFile.getName());
             
             // make the new file the current file
-            GuiImage.currentFile =
-                    newFile;
+            GuiImage.currentFile = newFile;
         }
     }
 }

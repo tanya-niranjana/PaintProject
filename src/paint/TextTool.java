@@ -27,21 +27,14 @@ public class TextTool {
         TextInputDialog dialog =
                 new TextInputDialog();
 
-        dialog.setTitle(
-                "Add Text"
-        );
+        dialog.setTitle( "Add Text");
 
-        dialog.setHeaderText(
-                "Enter the text you want to add"
-        );
+        dialog.setHeaderText("Enter the text you want to add");
 
-        dialog.setContentText(
-                "Text:"
-        );
+        dialog.setContentText("Text:");
 
         // wait for the user to enter text
-        Optional<String> result =
-                dialog.showAndWait();
+        Optional<String> result = dialog.showAndWait();
 
         // stop if the user cancels
         if (result.isEmpty()) {
@@ -49,8 +42,7 @@ public class TextTool {
         }
 
         // save the text entered by the user
-        String text =
-                result.get();
+        String text = result.get();
 
         // stop if no text was entered
         if (text.isEmpty()) {
@@ -64,18 +56,13 @@ public class TextTool {
         drawingArea.canvas.setOnMouseClicked(null);
 
         // place the text where the user clicks
-        drawingArea.canvas.setOnMouseClicked(
-                event -> {
+        drawingArea.canvas.setOnMouseClicked(event -> {
 
             // save current image before adding text
-            UndoRedo.saveState(
-                    drawingArea
-            );
+            UndoRedo.saveState(drawingArea);
 
             // use the selected drawing color
-            drawingArea.gc.setFill(
-                    drawingArea.lineColor
-            );
+            drawingArea.gc.setFill(drawingArea.lineColor);
 
             // draw the text at the clicked location
             drawingArea.gc.fillText(

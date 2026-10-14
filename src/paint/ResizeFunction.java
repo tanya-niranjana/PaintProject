@@ -74,42 +74,26 @@ public class ResizeFunction {
             );
             
             // show dialog and wait for user to choose a button
-            Optional<ButtonType> result =
-                    dialog.showAndWait();
+            Optional<ButtonType> result = dialog.showAndWait();
             
             // only continue if user clicks ok
-            if (result.isPresent()
-                    && result.get() == ButtonType.OK) {
+            if (result.isPresent() && result.get() == ButtonType.OK) {
                 
                 try {
                     
                     // convert the user's entries from text into numbers
-                    double newWidth =
-                            Double.parseDouble(
-                                    widthField.getText()
-                            );
-                    double newHeight =
-                            Double.parseDouble(
-                                    heightField.getText()
-                            );
+                    double newWidth =Double.parseDouble(widthField.getText());
+                    double newHeight = Double.parseDouble(heightField.getText());
                     
                     // resize the drawing area using the new dimensions
-                    drawingArea.resizeDrawingArea(
-                            newWidth,
-                            newHeight
-                    );
+                    drawingArea.resizeDrawingArea(newWidth,newHeight);
                     
                     // show an error if the user enters something that is not a number
                 } catch (NumberFormatException e) {
                     // create an error message if user enters invalid number
-                    Alert errorAlert =
-                            new Alert(
-                                    Alert.AlertType.ERROR
-                            );
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     // tell user what went wrong
-                    errorAlert.setContentText(
-                            "Please enter valid numbers."
-                    );
+                    errorAlert.setContentText("Please enter valid numbers.");
                     // show message
                     errorAlert.showAndWait();
                 }
