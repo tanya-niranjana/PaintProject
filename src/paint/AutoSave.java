@@ -63,7 +63,13 @@ public class AutoSave {
                                 && GuiImage.drawingArea.isModified()) {
 
                             saveItem.fire();
+                            
+                            // log autosave
+                            PaintLogger.log("Autosave");
+                            
+                            NotificationManager.showNotification("Your image was autosaved.");
                         }
+                        
 
                         resetTimer();
                     }
