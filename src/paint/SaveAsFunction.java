@@ -170,6 +170,9 @@ public class SaveAsFunction {
 
                         // mark changes as saved
                         drawingArea.markSaved();
+                        
+                        // log save as
+                        PaintLogger.log("Save As");
 
                     } catch (IOException e) {
 

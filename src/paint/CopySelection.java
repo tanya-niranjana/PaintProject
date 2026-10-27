@@ -27,9 +27,10 @@ public class CopySelection {
         // copy the selected area when Copy is chosen
         copyItem.setOnAction(event -> {
 
-            DrawingArea drawingArea =
-                    GuiImage.drawingArea;
+            DrawingArea drawingArea = GuiImage.drawingArea;
 
+            PaintLogger.log("Copy");
+            
             // make sure a drawing area is open
             if (drawingArea == null) {
                 return;

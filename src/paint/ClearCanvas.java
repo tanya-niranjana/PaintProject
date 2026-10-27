@@ -61,6 +61,8 @@ public class ClearCanvas {
 
                         // mark the image as changed
                         GuiImage.drawingArea.modified = true;
+                        
+                        PaintLogger.log("Cleared canvas");
                     }
                 });
             }

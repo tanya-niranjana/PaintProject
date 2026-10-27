@@ -60,6 +60,9 @@ public class OpenImage {
 
                 // open the image in a new tab
                 ImageTabs.openImage(currentFile);
+                
+                // log image open
+                PaintLogger.log("Image Opened");
             }
         });
     }

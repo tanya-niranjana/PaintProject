@@ -26,6 +26,16 @@ import javafx.scene.paint.Color;
 import javafx.scene.control.CheckMenuItem;
 
 import javafx.scene.control.TabPane;
+
+import javafx.scene.control.Button;
+import javafx.scene.control.Tooltip;
+
+import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Ellipse;
+import javafx.scene.shape.Polygon;
+
 /**
  *Creates the main user interface for program
  * Sets up menu, drawing tools, color controls, line width,
@@ -181,6 +191,8 @@ public class GuiImage extends Application {
             dashedItem
         );
         
+        
+        
         // create the help menu and its options 
         Menu helpMenu = new Menu("Help");
         
@@ -209,14 +221,37 @@ public class GuiImage extends Application {
         MenuItem resizeItem = new MenuItem("Resize Drawing Area");
         MenuItem clearItem = new MenuItem("Clear Canvas");
         
+        MenuItem rotate90Item = new MenuItem("Rotate 90");
+        MenuItem rotate180Item = new MenuItem("Rotate 180°");
+        MenuItem rotate270Item = new MenuItem("Rotate 270°");
+        MenuItem flipHorizontalItem = new MenuItem("Flip Horizontal");
+        MenuItem flipVerticalItem = new MenuItem("Flip Vertical");
+        
+        
+        MenuItem rotateSelection90Item = new MenuItem("Rotate Selection 90°");
+        MenuItem rotateSelection180Item = new MenuItem("Rotate Selection 180°");
+        MenuItem rotateSelection270Item = new MenuItem("Rotate Selection 270°");
+        MenuItem flipVerticalSelectionItem = new MenuItem("Flip Selection Vertical");
+        MenuItem flipHorizontalSelectionItem = new MenuItem("Flip Selection Horizontal");
+
+
         // add the image options to the Image menu
         imageMenu.getItems().addAll(
             resizeItem,
-            clearItem
+            clearItem,
+       
+            rotate90Item,
+            rotate180Item,
+            rotate270Item,
+            flipHorizontalItem,
+            flipVerticalItem,
+            rotateSelection90Item,
+            rotateSelection180Item,
+            rotateSelection270Item,
+            flipVerticalSelectionItem,
+            flipHorizontalSelectionItem            
         );
         
-        imageMenu.getItems().add(resizeItem);
-
         // create web menu
         Menu webMenu = new Menu("Web");
         MenuItem selectWebImageItem = new MenuItem("Select Current Tab for Web");
@@ -242,75 +277,294 @@ public class GuiImage extends Application {
         stopServerItem
         );
         
+        // line icon
+        Line lineIcon = new Line(2, 10, 18, 2);
+
+        Button lineButton = new Button();
+        lineButton.setGraphic(lineIcon);
+        lineButton.setTooltip(new Tooltip("Line Tool"));
+
+        // rectangle icon
+        Rectangle rectangleIcon = new Rectangle(18, 12);
+        rectangleIcon.setFill(Color.TRANSPARENT);
+        rectangleIcon.setStroke(Color.BLACK);
+
+        Button rectangleButton = new Button();
+        rectangleButton.setGraphic(rectangleIcon);
+        rectangleButton.setTooltip(new Tooltip("Rectangle Tool"));
+
+        // square icon
+        Rectangle squareIcon = new Rectangle(14, 14);
+        squareIcon.setFill(Color.TRANSPARENT);
+        squareIcon.setStroke(Color.BLACK);
+
+        Button squareButton = new Button();
+        squareButton.setGraphic(squareIcon);
+        squareButton.setTooltip(new Tooltip("Square Tool"));
+
+        // circle icon
+        Circle circleIcon = new Circle(7);
+        circleIcon.setFill(Color.TRANSPARENT);
+        circleIcon.setStroke(Color.BLACK);
+
+        Button circleButton = new Button();
+        circleButton.setGraphic(circleIcon);
+        circleButton.setTooltip(new Tooltip("Circle Tool"));
+
+        // ellipse icon
+        Ellipse ellipseIcon = new Ellipse(9, 6);
+        ellipseIcon.setFill(Color.TRANSPARENT);
+        ellipseIcon.setStroke(Color.BLACK);
+
+        Button ellipseButton = new Button();
+        ellipseButton.setGraphic(ellipseIcon);
+        ellipseButton.setTooltip(new Tooltip("Ellipse Tool"));
+
+        // text tool
+        Button textButton = new Button("T");
+        textButton.setTooltip(new Tooltip("Text Tool"));
+
+        // pencil tool
+        Button pencilButton = new Button("✎");
+        pencilButton.setTooltip(new Tooltip("Pencil Tool"));
+
+        // eraser tool
+        Button eraserButton = new Button("⌫");
+        eraserButton.setTooltip(new Tooltip("Eraser Tool"));
+
+        // selection tool
+        Button selectButton = new Button("▣");
+        selectButton.setTooltip(new Tooltip("Selection Tool"));
+
+        // color grabber
+        Button colorButton = new Button("●");
+        colorButton.setTooltip(new Tooltip("Color Grabber"));        
+
+        Polygon triangleIcon = new Polygon(
+                10.0, 1.0,
+                1.0, 16.0,
+                19.0, 16.0
+        );
+
+        triangleIcon.setFill(Color.TRANSPARENT);
+        triangleIcon.setStroke(Color.BLACK);
+
+        Button triangleButton = new Button();
+        triangleButton.setGraphic(triangleIcon);
+        triangleButton.setTooltip(
+                new Tooltip("Triangle Tool")
+        );        
+
+
+        Polygon diamondIcon = new Polygon(
+                10.0, 1.0,
+                19.0, 9.0,
+                10.0, 17.0,
+                1.0, 9.0
+        );
+
+        diamondIcon.setFill(Color.TRANSPARENT);
+        diamondIcon.setStroke(Color.BLACK);
+
+        Button diamondButton = new Button();
+        diamondButton.setGraphic(diamondIcon);
+        diamondButton.setTooltip(
+                new Tooltip("Diamond Tool")
+        );
+        
+        Button starButton = new Button("★");
+        starButton.setTooltip(
+                new Tooltip("Star Tool")
+        );
+        Button polygonButton = new Button("⬡");
+        polygonButton.setTooltip(
+                new Tooltip("Regular Polygon Tool")
+        );
+        
+        
+        // buttons for drawing tools
+        HBox drawingButtons = new HBox(
+                5,
+                textButton,
+                lineButton,
+                pencilButton,
+                eraserButton,
+                colorButton,
+                squareButton,
+                rectangleButton,
+                circleButton,
+                ellipseButton,
+                triangleButton,
+                diamondButton,
+                starButton,
+                polygonButton,
+                selectButton
+        );
+        
         // move the selected part of the image
         moveItem.setOnAction(event -> {
 
             if (drawingArea != null) {
 
-                MoveSelection.setupDrawing(
+                MoveSelection.setupDrawing(drawingArea);
+                
+                PaintLogger.log("Move selection selected");
+            }
+        });
+        
+        // rotate the whole image 90 degrees
+        rotate90Item.setOnAction(event -> {
+
+            if (drawingArea != null) {
+                ImageTransform.rotate90(drawingArea);
+            }
+        });
+        
+        // rotate image 180 degrees
+        rotate180Item.setOnAction(event -> {
+
+            if (drawingArea != null) {
+                ImageTransform.rotate180(drawingArea);
+            }
+        });
+
+        // rotate image 270 degrees
+        rotate270Item.setOnAction(event -> {
+
+            if (drawingArea != null) {
+                ImageTransform.rotate270(drawingArea);
+            }
+        });
+
+        // flip image left to right
+        flipHorizontalItem.setOnAction(event -> {
+
+            if (drawingArea != null) {
+                ImageTransform.flipHorizontal(drawingArea);
+            }
+        });
+
+        // flip image top to bottom
+        flipVerticalItem.setOnAction(event -> {
+
+            if (drawingArea != null) {
+                ImageTransform.flipVertical(drawingArea);
+            }
+        });
+
+        rotateSelection90Item.setOnAction(event -> {
+
+            if (drawingArea != null) {
+                SelectionTransform.rotate90(
                         drawingArea
                 );
             }
         });
-        
+        rotateSelection180Item.setOnAction(event -> {
+
+                    if (drawingArea != null) {
+                        SelectionTransform.rotate180(
+                                drawingArea
+                        );
+                    }
+                });
+        rotateSelection270Item.setOnAction(event -> {
+
+                    if (drawingArea != null) {
+                        SelectionTransform.rotate270(
+                                drawingArea
+                        );
+                    }
+                });
+        flipVerticalSelectionItem.setOnAction(event -> {
+
+                    if (drawingArea != null) {
+                        SelectionTransform.flipVertical(
+                                drawingArea
+                        );
+                    }
+                });
+
+
+        flipHorizontalSelectionItem.setOnAction(event -> {
+
+                    if (drawingArea != null) {
+                        SelectionTransform.flipHorizontal(
+                                drawingArea
+                        );
+                    }
+                });
         // choose the text tool
         textItem.setOnAction(event -> {
             TextTool.setupDrawing(drawingArea);
+            PaintLogger.log("Text tool selected");
         });
         
         // choose the selection tool
         selectItem.setOnAction(event -> {
             SelectionTool.setupDrawing(drawingArea);
+            PaintLogger.log("Select tool selected");
         });
         
         // choose straight line tool
         lineItem.setOnAction(event -> {
             SetUpDrawing.setupDrawing(drawingArea);
+            PaintLogger.log("Staight line tool selected");
+
         });
 
         // choose square tool
         squareItem.setOnAction(event -> {
             SqaureTool.setupDrawing(drawingArea);
+            PaintLogger.log("Sqaure tool selected");
         });
 
         // choose rectangle tool
         rectangleItem.setOnAction(event -> {
             RectangleTool.setupDrawing(drawingArea);
+            PaintLogger.log("Rectangle tool selected");
         });
 
         // choose circle tool
         circleItem.setOnAction(event -> {
             CircleTool.setupDrawing(drawingArea);
+            PaintLogger.log("Circle tool selected");
         });
 
         // choose ellipse tool
         ellipseItem.setOnAction(event -> {
             EllipseTool.setupDrawing(drawingArea);
+            PaintLogger.log("Ellipse tool selected");
         });
 
         // choose triangle tool
         triangleItem.setOnAction(event -> {
             TriangleTool.setupDrawing(drawingArea);
+            PaintLogger.log("Triangle tool selected");
         });
         
         // choose right triangle tool
         rightTriangleItem.setOnAction(event -> {
             RightTriangleTool.setupDrawing(drawingArea);
+            PaintLogger.log("Right Triangle tool selected");
         });
 
         // choose non-right triangle tool
         nonRightTriangleItem.setOnAction(event -> {
             NonRightTriangleTool.setupDrawing(drawingArea);
+            PaintLogger.log("NonRight Triangle tool selected");
         });
         
         // choose pencil drawing tool
         pencilItem.setOnAction(event -> {
             PencilTool.setupDrawing(drawingArea);
+            PaintLogger.log("Pencil tool selected");
         });
 
         // choose eraser tool
         eraserItem.setOnAction(event -> {
             EraserTool.setupDrawing(drawingArea);
+            PaintLogger.log("Eraser tool selected");
         });
 
         // choose color grabber tool
@@ -320,21 +574,26 @@ public class GuiImage extends Application {
                     colorPicker,
                     colorText
             );
+            
+            PaintLogger.log("Color Grabber selected");
         });
         
         // choose the diamond drawing tool
         diamondItem.setOnAction(event -> {
             DiamondTool.setupDrawing(drawingArea);
+            PaintLogger.log("Diamond tool selected");
         });
         
         // choose the star drawing tool
         starItem.setOnAction(event -> {
             StarTool.setupDrawing(drawingArea);
+            PaintLogger.log("Star tool selected");
         });
         
         // choose the polygon drawing tool
         polygonItem.setOnAction(event -> {
             RegularPolygonTool.setupDrawing(drawingArea);
+            PaintLogger.log("Polygon tool selected");
         });
         
         // turn dash lines on or off 
@@ -346,6 +605,7 @@ public class GuiImage extends Application {
                 DashedOutline.turnOn(
                         drawingArea
                 );
+                PaintLogger.log("Dash tool selected");
 
             } else {
                 
@@ -359,16 +619,94 @@ public class GuiImage extends Application {
         // add current tab image to website
         selectWebImageItem.setOnAction(event -> {
             WebServer.selectCurrentImage();
+            PaintLogger.log("Current tab selected for web server");
         });
 
         // start web server
         startServerItem.setOnAction(event -> {
             WebServer.startServer();
+            PaintLogger.log("Web server started");
         });
 
         // stop web server
         stopServerItem.setOnAction(event -> {
             WebServer.stopServer();
+            PaintLogger.log("Web server stopped");
+        });
+        
+        lineButton.setOnAction(event -> {
+            SetUpDrawing.setupDrawing(drawingArea);
+            PaintLogger.log("Straight line tool selected");
+        });
+
+        rectangleButton.setOnAction(event -> {
+            RectangleTool.setupDrawing(drawingArea);
+            PaintLogger.log("Rectangle tool selected");
+        });
+
+        squareButton.setOnAction(event -> {
+            SqaureTool.setupDrawing(drawingArea);
+            PaintLogger.log("Square tool selected");
+        });
+
+        circleButton.setOnAction(event -> {
+            CircleTool.setupDrawing(drawingArea);
+            PaintLogger.log("Circle tool selected");
+        });
+
+        ellipseButton.setOnAction(event -> {
+            EllipseTool.setupDrawing(drawingArea);
+            PaintLogger.log("Ellipse tool selected");
+        });
+
+        textButton.setOnAction(event -> {
+            TextTool.setupDrawing(drawingArea);
+            PaintLogger.log("Text tool selected");
+        });
+
+        pencilButton.setOnAction(event -> {
+            PencilTool.setupDrawing(drawingArea);
+            PaintLogger.log("Pencil tool selected");
+        });
+
+        eraserButton.setOnAction(event -> {
+            EraserTool.setupDrawing(drawingArea);
+            PaintLogger.log("Eraser tool selected");
+        });
+
+        selectButton.setOnAction(event -> {
+            SelectionTool.setupDrawing(drawingArea);
+            PaintLogger.log("Select tool selected");
+        });
+
+        colorButton.setOnAction(event -> {
+            ColorGrabber.setup(
+                    drawingArea,
+                    colorPicker,
+                    colorText
+            );
+
+            PaintLogger.log("Color grabber selected");
+        });
+
+        triangleButton.setOnAction(event -> {
+            TriangleTool.setupDrawing(drawingArea);
+            PaintLogger.log("Triangle tool selected");
+        });
+
+        diamondButton.setOnAction(event -> {
+            DiamondTool.setupDrawing(drawingArea);
+            PaintLogger.log("Diamond tool selected");
+        });
+
+        starButton.setOnAction(event -> {
+            StarTool.setupDrawing(drawingArea);
+            PaintLogger.log("Star tool selected");
+        });
+
+        polygonButton.setOnAction(event -> {
+            RegularPolygonTool.setupDrawing(drawingArea);
+            PaintLogger.log("Polygon tool selected");
         });
         
         // create the slide used to change line width
@@ -416,7 +754,8 @@ public class GuiImage extends Application {
         // place the menu bar and drawing tools at the top of the window
         VBox topArea = new VBox(
             menuBar,
-            tools
+            tools,
+            drawingButtons
         );
         
         root.setTop(topArea);
@@ -454,9 +793,9 @@ public class GuiImage extends Application {
 
             if (drawingArea != null) {
 
-                PasteSelection.setupDrawing(
-                        drawingArea
-                );
+                PasteSelection.setupDrawing(drawingArea);
+                
+                PaintLogger.log("Paste Selected");
             }
         });
 
@@ -523,6 +862,9 @@ public class GuiImage extends Application {
         stage.setTitle("Paint");
         stage.setScene(scene);
         stage.show();
+        
+        // set up system notifications
+        NotificationManager.setup();
     }
     
     

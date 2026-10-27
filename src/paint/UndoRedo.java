@@ -51,6 +51,8 @@ public class UndoRedo {
             if (GuiImage.drawingArea != null) {
 
                 undo(GuiImage.drawingArea);
+                
+                PaintLogger.log("Undo");
             }
         });
 
@@ -60,6 +62,7 @@ public class UndoRedo {
             if (GuiImage.drawingArea != null) {
 
                 redo(GuiImage.drawingArea);
+                PaintLogger.log("Redo");
             }
         });
     }

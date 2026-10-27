@@ -46,6 +46,9 @@ public class SetUpDrawing {
 
             // save the current image before drawing the new line
             UndoRedo.saveState(drawingArea);
+            
+            // log that the line tool was used
+            PaintLogger.log("Line draw tool selected");
 
             // get the location where the user started the line
             drawingArea.startX = event.getX();
@@ -90,8 +93,7 @@ public class SetUpDrawing {
         // update the preview while the mouse is dragged
         drawingArea.canvas.setOnMouseDragged(event -> {
 
-            previewLine.setEndX(event.getX()
-            );
+            previewLine.setEndX(event.getX());
 
             previewLine.setEndY(event.getY());
         });

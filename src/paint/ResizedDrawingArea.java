@@ -36,6 +36,7 @@ public class ResizedDrawingArea {
 
             // resizing count as am unsaved change 
             drawingArea.modified = true; 
+            PaintLogger.log("Drawing area resized");
         }
     }
 

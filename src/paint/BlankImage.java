@@ -39,6 +39,9 @@ public class BlankImage {
             
             ImageTabs.openBlankImage(800,600);
             
+            // log new tab
+            PaintLogger.log("New tab opened");
+            
        
         });
     }
