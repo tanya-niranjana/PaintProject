@@ -85,7 +85,7 @@ public class AutoSave {
     }
 
     /**
-     * Resets the autosave timer.
+     * Resets the auto save timer.
      */
     public static void resetTimer() {
 

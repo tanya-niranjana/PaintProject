@@ -13,8 +13,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 /**
- * Creates and displays the "About" window for the 
- * Paint Program
+ * Creates and displays the "About" window for the Paint Program
  * 
  * @author tanya
  */
